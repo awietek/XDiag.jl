@@ -1,4 +1,4 @@
-module YxDiag
+module XDiag
 using CxxWrap
 using Latlib
 using LinearAlgebra

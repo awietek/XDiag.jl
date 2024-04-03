@@ -1,11 +1,10 @@
-name = "YxDiag"
+name = "XDiag"
 uuid = "3edaab83-692e-476a-bab5-541af84d25fc"
 authors = ["Alex Wietek <awietek@pks.mpg.de> and contributors"]
-version = "1.0.0-DEV"
+version = "0.2.0-DEV"
 
 [deps]
 CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
-Latlib = "c4002ea4-6ce3-4785-97ba-a9d3015475cb"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 

@@ -1,3 +1,3 @@
-# YxDiag
+# XDiag.jl
 
-[![Build Status](https://github.com/your_github_username/YxDiag.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/your_github_username/YxDiag.jl/actions/workflows/CI.yml?query=branch%3Amain)
+A Julia library to perform efficient Exact Diagonalizations of quantum many body systems. 
