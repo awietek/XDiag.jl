@@ -1,6 +1,5 @@
 module XDiag
 using CxxWrap
-using Latlib
 using LinearAlgebra
 
 export Spinhalf, n_sites, Bond, BondList
