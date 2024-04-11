@@ -8,7 +8,7 @@ export matrix, col, apply, dot, inner, norm
 export eig0, eigval0
 export exp_sym_v
 
-@wrapmodule("/home/awietek/Research/Software/hydra/build/julia/libhydrajl.so", :define_julia_module)
+@wrapmodule("/home/awietek/Research/Software/xdiag/install/lib64/libxdiagjl.so", :define_julia_module)
 
 struct BondList
     bonds::Vector{Bond}
