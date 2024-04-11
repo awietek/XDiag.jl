@@ -8,7 +8,13 @@ export matrix, col, apply, dot, inner, norm
 export eig0, eigval0
 export exp_sym_v
 
-@wrapmodule("/home/awietek/Research/Software/xdiag/install/lib64/libxdiagjl.so", :define_julia_module)
+@wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
+
+struct Bond
+    type::AbstractString
+    coupling::Union{AbstractString, Number}
+    sites::Vector{Int64}
+end
 
 struct BondList
     bonds::Vector{Bond}
@@ -18,9 +24,10 @@ end
 BondList(bonds::Vector{Bond}) = BondList(bonds, Dict())
 
 function bond_cxx(bond::Bond)
-    if all(bond.sites .<= 0)
+    if any(bond.sites .<= 0)
         error("Sites of bond must be >= 1") 
     end
+
     # sites in c++ start counting from 0
     sites = bond.sites .- 1
     return BondCxx(bond.type, bond.coupling, StdVector(sites))
@@ -97,7 +104,7 @@ function matrix(bonds::BondList, block_in::Spinhalf, block_out::Spinhalf;
                 force_complex::Bool=false)
     # convert bonds to BondList in C++ format
     bonds_cxx = bondlist_cxx(bonds)
-
+    @show bonds
     if isreal(bonds_cxx, 1e-12) && isreal(block_in, 1e-12) && isreal(block_out, 1e-12) && !force_complex
         mat = Matrix{Float64}(undef, size(block_in), size(block_out))
         matrix_cxx(Base.unsafe_convert(Ptr{Float64}, mat), bonds_cxx, block_in, block_out)
