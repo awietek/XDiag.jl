@@ -11,6 +11,7 @@ using Test
     end
     H = BondList(bonds)
     mat = matrix(H, block)
+    @show mat
     mat2 = [-.5 1; 1 -.5]
     @test isapprox(mat, mat2)
     

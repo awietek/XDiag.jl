@@ -1,6 +1,10 @@
 module XDiag
+
 using CxxWrap
+using XDiag_jll
+
 using LinearAlgebra
+
 
 export Spinhalf, n_sites, Bond, BondList
 export State, make_complex!, n_rows, n_cols, zeros_like
@@ -8,7 +12,9 @@ export matrix, col, apply, dot, inner, norm
 export eig0, eigval0
 export exp_sym_v
 
-@wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
+# @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
+
+@wrapmodule(XDiag_jll.get_xdiagjl_path)
 
 struct Bond
     type::AbstractString
