@@ -4,7 +4,7 @@ using CxxWrap
 using XDiag_jll
 using LinearAlgebra
 
-import Base: +, *, getindex, setindex!
+import Base: +, *, getindex, setindex!, size, isreal
 
 @wrapmodule(XDiag_jll.get_xdiagjl_path)
 # @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
@@ -22,7 +22,8 @@ export matrix, col, apply, dot, inner, norm
 export eig0, eigval0
 export exp_sym_v
 export add!
-export Permutation, inverse
+export Permutation, inverse, PermutationGroup, Representation
+export isreal, iscomplex
 
 export say_hello, set_verbosity
 
