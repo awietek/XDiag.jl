@@ -2,137 +2,41 @@ module XDiag
 
 using CxxWrap
 using XDiag_jll
-
 using LinearAlgebra
 
+import Base: +, *, getindex, setindex!
 
-export Spinhalf, n_sites, Bond, BondList
+@wrapmodule(XDiag_jll.get_xdiagjl_path)
+# @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
+
+include("blocks.jl")
+include("operators.jl")
+include("matrix.jl")
+include("sparse_diag.jl")
+include("symmetries.jl")
+
+export Spinhalf, tJ, Electron
+export n_sites, Bond, BondList
 export State, make_complex!, n_rows, n_cols, zeros_like
 export matrix, col, apply, dot, inner, norm
 export eig0, eigval0
 export exp_sym_v
+export add!
+export Permutation, inverse
 
-# @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
+export say_hello, set_verbosity
 
-@wrapmodule(XDiag_jll.get_xdiagjl_path)
-
-struct Bond
-    type::AbstractString
-    coupling::Union{AbstractString, Number}
-    sites::Vector{Int64}
-end
-
-struct BondList
-    bonds::Vector{Bond}
-    couplings::Dict{AbstractString, Number}
-end
-
-BondList(bonds::Vector{Bond}) = BondList(bonds, Dict())
-
-function bond_cxx(bond::Bond)
-    if any(bond.sites .<= 0)
-        error("Sites of bond must be >= 1") 
-    end
-
-    # sites in c++ start counting from 0
-    sites = bond.sites .- 1
-    return BondCxx(bond.type, bond.coupling, StdVector(sites))
-end
-
-function bondlist_cxx(bondlist::BondList)
-    bonds_cxx = BondListCxx(StdVector(bond_cxx.(bondlist.bonds)))
-    for (key, val) in bondlist.couplings
-        set_coupling(bonds_cxx, key, ComplexF64(val))
-    end
-    return bonds_cxx
-end
-
-function Base.real(state::State)
-    return real(state)
-end
-
-function LinearAlgebra.norm(state::State)
-    return norm_cxx(state)
-end
-
-function Base.imag(state::State)
-    return imag(state)
-end
-
-function Base.size(block::Spinhalf)
-    return size(block)
-end
-
-function Base.size(state::State)
-    return (n_rows(state), n_cols(state))
-end
-
-macro name(arg)
-    x = string(arg)
-    quote
-        $x
-    end
-end
-
-function Base.show(io::IO, block::Spinhalf)
-    print_pretty("hydra::Spinhalf", block)
-end
-
-function Base.show(io::IO, state::State)
-    print_pretty("hydra::State", state)
-end
-
-function Base.show(io::IO, bond::BondCxx)
-    print_pretty("hydra::Bond", bond)
-end
-
-function Base.show(io::IO, bonds::BondListCxx)
-    print_pretty("hydra::BondList", bonds)
-end
-
-# ground state energy routines
-function eig0(bonds::BondList, block::Spinhalf;
-              precision::Real=1e-12, maxiter::Integer=1000,
-              force_complex::Bool=false, seed::Integer=42)
-    bonds_cxx = bondlist_cxx(bonds)
-    return eig0_cxx(bonds_cxx, block, precision, maxiter, force_complex, seed)
-end
-
-function eigval0(bonds::BondList, block::Spinhalf;
-                 precision::Real=1e-12, maxiter::Integer=1000,
-                 force_complex::Bool=false, seed::Integer=42)
-    bonds_cxx = bondlist_cxx(bonds)
-    return eigval0_cxx(bonds_cxx, block, precision, maxiter, force_complex, seed)
+function printlib()
+    @show XDiag_jll.get_xdiagjl_path()
 end
 
 
-function matrix(bonds::BondList, block_in::Spinhalf, block_out::Spinhalf;
-                force_complex::Bool=false)
-    # convert bonds to BondList in C++ format
-    bonds_cxx = bondlist_cxx(bonds)
-    @show bonds
-    if isreal(bonds_cxx, 1e-12) && isreal(block_in, 1e-12) && isreal(block_out, 1e-12) && !force_complex
-        mat = Matrix{Float64}(undef, size(block_in), size(block_out))
-        matrix_cxx(Base.unsafe_convert(Ptr{Float64}, mat), bonds_cxx, block_in, block_out)
-        return mat
-    else
-        mat = Matrix{ComplexF64}(undef, size(block_in), size(block_out))
-        matrixC_cxx(Base.unsafe_convert(Ptr{ComplexF64}, mat), bonds_cxx, block_in, block_out)
-        return mat
-    end
-end
-
-function matrix(bonds::BondList, block::Spinhalf; force_complex::Bool=false)
-    return matrix(bonds, block, block; force_complex=force_complex)
-end
 
 function apply(bonds::BondList, v::State, w::State)
     # convert bonds to BondList in C++ format
     bonds_cxx = bondlist_cxx(bonds)
     apply_cxx(bonds_cxx, v, w)
 end
-
-
 
 function dot(v::State, w::State)
     if isreal(v) && isreal(w)
