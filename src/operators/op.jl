@@ -3,6 +3,7 @@ struct Op
 end
 
 # Constructors
+Op() = Op(cxx_Op())
 Op(type::String, cpl::Coupling, sites::Vector{Int64}) =
     Op(cxx_Op(type, cpl.cxx_coupling, StdVector(sites)))
 Op(type::String, cpl::Coupling, site::Int64) = Op(cxx_Op(type, cpl.cxx_coupling, site))

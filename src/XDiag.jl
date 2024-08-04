@@ -5,7 +5,7 @@ using XDiag_jll
 using LinearAlgebra
 using Printf
 
-import Base: +, *, getindex, setindex!, size, isreal, convert, show, real, imag
+import Base: +, *, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate
 
 @wrapmodule(XDiag_jll.get_xdiagjl_path)
 # @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
@@ -29,6 +29,9 @@ export PermutationGroup, n_sites
 
 include("symmetries/representation.jl")
 export Representation
+
+include("states/product_state.jl")
+export ProductState, _begin, _end
 
 abstract type Block end
 include("blocks/spinhalf.jl")

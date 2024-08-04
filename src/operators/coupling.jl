@@ -5,6 +5,7 @@ struct Coupling
 end
 
 # Constructors
+Coupling() = Coupling(cxx_Coupling())
 Coupling(name::String) = Coupling(cxx_Coupling(name))
 Coupling(val::Float64) = Coupling(cxx_Coupling(val))
 Coupling(val::ComplexF64) = Coupling(cxx_Coupling(val))
