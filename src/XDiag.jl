@@ -5,7 +5,7 @@ using XDiag_jll
 using LinearAlgebra
 using Printf
 
-import Base: +, *, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate
+import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate
 
 @wrapmodule(XDiag_jll.get_xdiagjl_path)
 # @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
@@ -37,7 +37,7 @@ abstract type Block end
 include("blocks/spinhalf.jl")
 include("blocks/tj.jl")
 include("blocks/electron.jl")
-export Spinhalf, tJ, Electron, n_up, n_dn, dim
+export Spinhalf, tJ, Electron, n_up, n_dn, dim, permutation_group, irrep, index
 
 include("algebra/matrix.jl")
 export matrix

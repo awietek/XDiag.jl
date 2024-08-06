@@ -11,9 +11,34 @@ Spinhalf(n_sites::Integer, n_up::Integer, group::PermutationGroup, irrep::Repres
     Spinhalf(cxx_Spinhalf(n_sites, n_up, group.cxx_group, irrep.cxx_representation))
 
 # Methods
-n_sites(block::Spinhalf) = Int64(n_sites(block.cxx_block))
-Base.size(block::Spinhalf) = Int64(size(block.cxx_block))
-Base.isreal(block::Spinhalf; precision::Real = 1e-12) = Bool(isreal(block.cxx_block, precision))
+n_sites(block::Spinhalf) = n_sites(block.cxx_block)
+n_up(block::Spinhalf) = n_up(block.cxx_block)
+permutation_group(block::Spinhalf) = PermutationGroup(permutation_group((block.cxx_block)))
+irrep(block::Spinhalf) = Representation(irrep(block.cxx_block))
+Base.isreal(block::Spinhalf) = isreal(block.cxx_block)
+dim(block::Spinhalf) = dim(block.cxx_block)
+Base.size(block::Spinhalf) = size(block.cxx_block)
+index(block::Spinhalf, pstate::ProductState) =
+    Int64(index(block.cxx_block, pstate.cxx_product_state)) + 1
+
+# Iterators
+function Base.iterate(block::Spinhalf)
+    if size(block) > 0
+        b = _begin(block.cxx_block)
+        return ProductState(_deref(b)), b
+    else
+        return nothing
+    end
+end
+
+function Base.iterate(block::Spinhalf, state)
+    _incr(state)
+    if state != _end(block.cxx_block)
+        return ProductState(_deref(state)), state
+    else
+        return nothing
+    end
+end
 
 # Output
 Base.show(io::IO, block::Spinhalf) = print(io, "\n" * to_string(block.cxx_block))

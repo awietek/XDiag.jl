@@ -6,6 +6,7 @@ include("operators/op.jl")
 include("operators/opsum.jl")
 
 include("states/state.jl")
+include("blocks/blocks.jl")
 
 # @testset "XDiag.jl" begin
 #     N = 2

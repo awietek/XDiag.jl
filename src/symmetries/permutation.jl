@@ -1,11 +1,9 @@
 struct Permutation
-    array::Vector{Int64}
     cxx_perm::cxx_Permutation
 end
 
 # Constructors
-Permutation(array::Vector{Int64}) = Permutation(array, cxx_Permutation(StdVector(array)))
-Permutation(cxx_perm::cxx_Permutation) = Permutation(array(cxx_perm), cxx_perm)
+Permutation(array::Vector{Int64}) = Permutation(cxx_Permutation(StdVector(array)))
 
 # Methods
 Base.size(perm::Permutation) = size(perm.array)(0)
