@@ -5,8 +5,9 @@ function eig0(
     maxiter::Int64 = 1000,
     force_complex::Bool = false,
     seed::Int64 = 42,
-)
-    return eig0(ops.cxx_opsum, block.cxx_block, precision, maxiter, force_complex, seed)
+    )
+    e0, cxx_state = eig0(ops.cxx_opsum, block.cxx_block, precision, maxiter, force_complex, seed)
+    return e0, State(cxx_state)
 end
 
 function eigval0(

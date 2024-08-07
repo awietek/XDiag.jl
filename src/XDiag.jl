@@ -5,7 +5,7 @@ using XDiag_jll
 using LinearAlgebra
 using Printf
 
-import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate
+import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero
 
 @wrapmodule(XDiag_jll.get_xdiagjl_path)
 # @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
@@ -39,11 +39,26 @@ include("blocks/tj.jl")
 include("blocks/electron.jl")
 export Spinhalf, tJ, Electron, n_up, n_dn, dim, permutation_group, irrep, index
 
+include("states/state.jl")
+export State, vector, matrix, col, make_complex!, n_rows, n_cols
+
+include("states/random_state.jl")
+export RandomState, seed, normalized
+
+include("states/gpwf.jl")
+export GPWF
+
+include("states/fill.jl")
+export fill
+
+include("states/create_state.jl")
+export product
+
 include("algebra/matrix.jl")
 export matrix
 
-include("states/state.jl")
-export State, vector, matrix, col, make_complex!, n_rows, n_cols
+include("algebra/algebra.jl")
+export norm, norm1, norminf, dot, inner
 
 include("algorithms/sparse_diag.jl")
 export eig0, eigval0
