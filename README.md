@@ -27,7 +27,7 @@ add https://github.com/awietek/XDiag.jl.git
 
 ### Example Code:
 
-```
+```julia
 using XDiag
 
 let 
