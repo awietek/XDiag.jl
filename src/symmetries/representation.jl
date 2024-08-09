@@ -5,7 +5,9 @@ end
 # Constructors
 function Representation(characters::Vector{<:Number})
     characters_cplx = Vector{ComplexF64}(characters)
-    return Representation(cxx_Representation(StdVector(characters_cplx)))
+    memptr = Base.unsafe_convert(Ptr{ComplexF64}, characters_cplx)
+    n = length( characters_cplx)
+    return Representation(cxx_Representation(memptr, n))
 end
 
 # Methods

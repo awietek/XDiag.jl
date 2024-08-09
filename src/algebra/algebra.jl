@@ -14,7 +14,7 @@ function inner(ops::OpSum, v::State)
     if isreal(ops) && isreal(v)
         return cxx_inner(ops.cxx_opsum, v.cxx_state)
     else
-        return cxx_innverC(ops.cxx_opsum, v.cxx_state)
+        return cxx_innerC(ops.cxx_opsum, v.cxx_state)
     end
 end
 
@@ -23,7 +23,7 @@ function inner(op::Op, v::State)
     if isreal(op) && isreal(v)
         return cxx_inner(op.cxx_op, v.cxx_state)
     else
-        return cxx_innverC(op.cxx_op, v.cxx_state)
+        return cxx_innerC(op.cxx_op, v.cxx_state)
     end
 end
 

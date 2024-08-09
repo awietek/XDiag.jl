@@ -30,6 +30,9 @@ export PermutationGroup, n_sites
 include("symmetries/representation.jl")
 export Representation
 
+include("operators/symmetrize.jl")
+export symmetrize
+
 include("states/product_state.jl")
 export ProductState, _begin, _end
 
@@ -56,6 +59,9 @@ export product
 
 include("algebra/matrix.jl")
 export matrix
+
+include("algebra/apply.jl")
+export apply
 
 include("algebra/algebra.jl")
 export norm, norm1, norminf, dot, inner
