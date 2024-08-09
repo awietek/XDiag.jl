@@ -26,6 +26,8 @@ add https://github.com/awietek/XDiag.jl.git
 ```
 
 ### Example Code:
+
+```
 using XDiag
 
 let 
