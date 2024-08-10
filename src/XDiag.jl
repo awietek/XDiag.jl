@@ -1,16 +1,14 @@
 module XDiag
 
+using Printf
 using CxxWrap
 using XDiag_jll
-using LinearAlgebra
-using Printf
 
 import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero
 
 @wrapmodule(XDiag_jll.get_xdiagjl_path)
-# @wrapmodule(() -> joinpath("/Users/awietek/Research/Software/xdiag/install/lib/","libxdiagjl"))
-
 printlib() = println(XDiag_jll.get_xdiagjl_path())
+export printlib
 
 include("operators/coupling.jl")
 export Coupling, type, isreal, ismatrix, isexplicit
