@@ -16,7 +16,7 @@ function to_julia(vec::cxx_arma_vec)
     julia_vec = Vector{Float64}(undef, m)
 
     # Low level C call to copy
-    vec_ptr = reinterpret(Ptr{Float64}, memptr(vec))
+    vec_ptr = memptr(vec).cpp_object
     julia_vec_ptr = Base.unsafe_convert(Ptr{Float64}, julia_vec)
     Base.unsafe_copyto!(julia_vec_ptr, vec_ptr, m)
     return julia_vec
@@ -27,9 +27,9 @@ function to_julia(vec::cxx_arma_cx_vec)
     julia_vec = Vector{ComplexF64}(undef, m)
 
     # Low level C call to copy
-    vec_ptr = reinterpret(Ptr{Float64}, memptr(vec))
-    julia_vec_ptr = Base.unsafe_convert(Ptr{Float64}, julia_vec)
-    Base.unsafe_copyto!(julia_vec_ptr, vec_ptr, 2*m)
+    vec_ptr = memptr(vec).cpp_object
+    julia_vec_ptr = Base.unsafe_convert(Ptr{ComplexF64}, julia_vec)
+    Base.unsafe_copyto!(julia_vec_ptr, vec_ptr, m)
     return julia_vec
 end
 
@@ -40,7 +40,7 @@ function to_julia(mat::cxx_arma_mat)
     julia_mat = Matrix{Float64}(undef, m, n)
 
     # Low level C call to copy
-    mat_ptr = reinterpret(Ptr{Float64}, memptr(mat))
+    mat_ptr = memptr(mat).cpp_object
     julia_mat_ptr = Base.unsafe_convert(Ptr{Float64}, julia_mat)
     Base.unsafe_copyto!(julia_mat_ptr, mat_ptr, N)
     return julia_mat
@@ -53,8 +53,8 @@ function to_julia(mat::cxx_arma_cx_mat)
     julia_mat = Matrix{ComplexF64}(undef, m, n)
 
     # Low level C call to copy
-    mat_ptr = reinterpret(Ptr{Float64}, memptr(mat))
-    julia_mat_ptr = Base.unsafe_convert(Ptr{Float64}, julia_mat)
-    Base.unsafe_copyto!(julia_mat_ptr, mat_ptr, 2*N)
+    mat_ptr = memptr(mat).cpp_object
+    julia_mat_ptr = Base.unsafe_convert(Ptr{ComplexF64}, julia_mat)
+    Base.unsafe_copyto!(julia_mat_ptr, mat_ptr, N)
     return julia_mat
 end
