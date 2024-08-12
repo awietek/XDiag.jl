@@ -1,5 +1,5 @@
 @testset "State" begin
-        block = Spinhalf(2)
+    block = Spinhalf(2)
     v = [1.0, 2.0, 3.0, 4.0]
     psi1 = State(block, v)
     @test v == vector(psi1)
