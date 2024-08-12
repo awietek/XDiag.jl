@@ -10,7 +10,7 @@ XDiag_jll = "05e47fe5-458f-5313-a276-ec18ac0ef94c"
 
 [compat]
 julia = "1.7"
-CxxWrap = "0.13"
+CxxWrap = "0.3"
 XDiag_jll = "=0.2.0"
 Printf = "1.0.0"
 
