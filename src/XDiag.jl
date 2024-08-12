@@ -7,6 +7,7 @@ using XDiag_jll
 import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero
 
 @wrapmodule(XDiag_jll.get_libxdiagjl_path)
+
 printlib() = println(XDiag_jll.get_libxdiagjl_path())
 export printlib
 
