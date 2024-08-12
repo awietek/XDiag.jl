@@ -25,10 +25,10 @@ jobs:
           - '1.11'
         os:
           - ubuntu-latest
-	  - osx-latest
+          - osx-latest
         arch:
           - x64
-	  - aarch64
+          - aarch64
     steps:
       - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1
