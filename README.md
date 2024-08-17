@@ -2,6 +2,7 @@
 [![docs](https://img.shields.io/badge/Documentation-here-red.svg)](https://awietek.github.io/xdiag)
 [![Linux CI](https://github.com/awietek/xdiag/actions/workflows/linux.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/linux.yml)
 [![Mac OSX CI](https://github.com/awietek/xdiag/actions/workflows/osx.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/osx.yml)
+[![Julia CI](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml)
 [![DOI](https://zenodo.org/badge/169422780.svg)](https://zenodo.org/badge/latestdoi/169422780)
 
 
@@ -42,7 +43,7 @@ let
     end
     ops["J"] = 1.0;
 
-    # set_verbosity(2);             # set verbosity for monitoring progress
+    set_verbosity(2);           # set verbosity for monitoring progress
     e0 = eigval0(ops, block);   # compute ground state energy
 
     println("Ground state energy: $e0");
