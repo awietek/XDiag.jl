@@ -20,11 +20,11 @@ A Julia library to perform efficient Exact Diagonalizations of quantum many body
 - based on C++ library [xdiag](https://github.com/awietek/xdiag)
 
 ### Installation:
-Enter the package mode using `]` in the Julia REPL and add the following two packages
+Enter the package mode using `]` in the Julia REPL and add type
 ```bash
-add https://github.com/awietek/XDiag_jll.jl.git
-add https://github.com/awietek/XDiag.jl.git
+add XDiag
 ```
+That's it!
 
 ### Example Code:
 
