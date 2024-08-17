@@ -11,6 +11,8 @@ import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, rea
 printlib() = println(XDiag_jll.get_libxdiagjl_path())
 export printlib
 
+export say_hello, print_version, set_verbosity
+
 include("operators/coupling.jl")
 export Coupling, type, isreal, ismatrix, isexplicit
 
@@ -68,6 +70,8 @@ export norm, norm1, norminf, dot, inner
 include("algorithms/sparse_diag.jl")
 export eig0, eigval0
 
+
+
 # export n_sites, Bond, BondList
 # export State, make_complex!, n_rows, n_cols, zeros_like
 # export matrix, col, apply, dot, inner, norm
@@ -76,7 +80,6 @@ export eig0, eigval0
 # export add!
 # export isreal, iscomplex
 
-# export say_hello, set_verbosity
 
 
 
