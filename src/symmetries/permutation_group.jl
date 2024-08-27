@@ -4,11 +4,11 @@ end
 
 # Constructors
 function PermutationGroup(permutations::Vector{Permutation})
-    cxx_perms = cxx_Permutation[]
+    cxx_perms = cxx_VectorPermutation()
     for p in permutations
-        push!(cxx_perms, p.cxx_perm)
+        push_back(cxx_perms, p.cxx_perm)
     end
-    PermutationGroup(cxx_PermutationGroup(StdVector(cxx_perms)))
+    PermutationGroup(cxx_PermutationGroup(cxx_perms))
 end
 
 # Methods

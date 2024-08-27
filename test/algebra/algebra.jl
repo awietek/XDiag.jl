@@ -9,8 +9,6 @@
 
     # @show vector(psi)
     v = vector(psi)
-    @show e0
-    @show v'v
 
     # @show e0
     n2 = norm(psi)

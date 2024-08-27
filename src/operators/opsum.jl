@@ -4,7 +4,13 @@ end
 
 # Constructors
 OpSum() = OpSum(cxx_OpSum())
-OpSum(ops::Vector{Op}) = OpSum(cxx_OpSum(StdVector([op.cxx_op for op in ops])))
+function OpSum(ops::Vector{Op})
+    cxx_ops = cxx_VectorOp()
+    for op in ops
+        push_back(cxx_ops, op.cxx_op)
+    end
+    OpSum(cxx_OpSum(cxx_ops))
+end
 
 # Methods
 Base.size(ops::OpSum) = Int64(size(ops.cxx_opsum))
