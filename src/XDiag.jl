@@ -68,7 +68,7 @@ include("algebra/apply.jl")
 export apply
 
 include("algebra/algebra.jl")
-export norm1, norminf, inner
+export norm, norm1, norminf, dot, inner
 
 include("algorithms/sparse_diag.jl")
 export eig0, eigval0
