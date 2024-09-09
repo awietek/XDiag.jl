@@ -3,7 +3,7 @@
     block = Spinhalf(N,  N ÷ 2)
     ops = OpSum()
     for i in 1:N
-        ops += Op("HB", 1.0, [i-1, i % N])
+        ops += Op("HB", 1.0, [i, mod1(i+1, N)])
     end
 
     res = eigs_lanczos(ops, block)

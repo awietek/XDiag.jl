@@ -2,10 +2,10 @@
     N = 4
     nup = 2
     ndn = 1
-    p1 = Permutation([0, 1, 2, 3])
-    p2 = Permutation([1, 2, 3, 0])
-    p3 = Permutation([2, 3, 0, 1])
-    p4 = Permutation([3, 0, 1, 2])
+    p1 = Permutation([1, 2, 3, 4])
+    p2 = Permutation([2, 3, 4, 1])
+    p3 = Permutation([3, 4, 1, 2])
+    p4 = Permutation([4, 1, 2, 3])
     group = PermutationGroup([p1, p2, p3, p4])
     rep = Representation([1, -1, 1, -1])
 

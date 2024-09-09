@@ -21,8 +21,7 @@ ismatrix(cpl::Coupling) = Bool(ismatrix(cpl.cxx_coupling))
 isexplicit(cpl::Coupling) = Bool(isexplicit(cpl.cxx_coupling))
 
 # Output
-Base.show(io::IO, cpl::Coupling) = print(io, "\n" * to_string(cpl.cxx_coupling))
-
+Base.show(io::IO, cpl::Coupling) = print(io, to_string(cpl.cxx_coupling))
 
 # Conversion
 function Base.convert(::Type{String}, cpl::Coupling)
