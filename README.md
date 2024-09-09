@@ -39,7 +39,7 @@ let
     # Define the nearest-neighbor Heisenberg model
     ops = OpSum()
     for i in 1:N
-        ops += Op("HB", "J", [i-1, i % N])
+        ops += Op("HB", "J", [i, mod1(i+1, N)])
     end
     ops["J"] = 1.0;
 
@@ -55,4 +55,4 @@ The full documentation is available at [awietek.github.io/xdiag](https://awietek
 
 ### About
 author:   Alexander Wietek
-license:   Apache License 2.0
+license:  Apache License 2.0
