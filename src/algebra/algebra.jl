@@ -1,8 +1,8 @@
-norm(state::State) = Float64(cxx_norm(state.cxx_state))
+LinearAlgebra.norm(state::State) = Float64(cxx_norm(state.cxx_state))
 norm1(state::State) = Float64(cxx_norm1(state.cxx_state))
 norminf(state::State) = Float64(cxx_norminf(state.cxx_state))
 
-function dot(v::State, w::State)
+function LinearAlgebra.dot(v::State, w::State)
     if isreal(v) && isreal(w)
         return cxx_dot(v.cxx_state, w.cxx_state)
     else

@@ -5,14 +5,16 @@ version = "0.2.3"
 
 [deps]
 CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 XDiag_jll = "05e47fe5-458f-5313-a276-ec18ac0ef94c"
 
 [compat]
-julia = "1.7"
 CxxWrap = "0.13, 0.14, 0.15, 0.16"
-XDiag_jll = "=0.2.2"
 Printf = "1.0.0"
+XDiag_jll = "=0.2.2"
+julia = "1.7"
+LinearAlgebra = "1" 
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

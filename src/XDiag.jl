@@ -3,8 +3,11 @@ module XDiag
 using Printf
 using CxxWrap
 using XDiag_jll
+using LinearAlgebra
 
 import Base: +, *, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero
+
+import LinearAlgebra: dot, norm
 
 @wrapmodule(XDiag_jll.get_libxdiagjl_path)
 
@@ -65,7 +68,7 @@ include("algebra/apply.jl")
 export apply
 
 include("algebra/algebra.jl")
-export norm, norm1, norminf, dot, inner
+export norm1, norminf, inner
 
 include("algorithms/sparse_diag.jl")
 export eig0, eigval0
