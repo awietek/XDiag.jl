@@ -23,13 +23,25 @@ function matrix(
         mat = Matrix{ComplexF64}(undef, size(block_in), size(block_out))
 
         # Let the C++ routine write to this matrix
-        matrix(
-            Base.unsafe_convert(Ptr{ComplexF64}, mat),
-            ops.cxx_opsum,
-            block_in.cxx_block,
-            block_out.cxx_block,
-            precision,
-        )
+
+        # the following works but is ugly because wrapper is wrong
+        if typeof(block_in) <: Spinhalf
+            matrixC(
+                Base.unsafe_convert(Ptr{ComplexF64}, mat),
+                ops.cxx_opsum,
+                block_in.cxx_block,
+                block_out.cxx_block,
+                precision,
+            )
+        else
+            matrix(
+                Base.unsafe_convert(Ptr{ComplexF64}, mat),
+                ops.cxx_opsum,
+                block_in.cxx_block,
+                block_out.cxx_block,
+                precision,
+            )
+        end
         return mat
     end
 end
