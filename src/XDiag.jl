@@ -5,7 +5,7 @@ using CxxWrap
 using XDiag_jll
 using LinearAlgebra
 
-import Base: +, -, *, /, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero
+import Base: +, -, *, /, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero, isapprox
 
 import LinearAlgebra: dot, norm
 
@@ -16,11 +16,26 @@ export printlib
 
 export say_hello, print_version, set_verbosity
 
-include("operators/op.jl")
-export Op, type, sites
+include("utils/armadillo.jl")
 
-# include("operators/coupling.jl")
-# export Coupling, type, isreal, ismatrix, isexplicit
+include("operators/op.jl")
+export Op, type, sites, to_string
+
+include("operators/opsum.jl")
+export OpSum, plain, constants
+
+include("operators/hc.jl")
+export hc
+
+include("symmetries/permutation.jl")
+export Permutation, inverse
+
+include("symmetries/permutation_group.jl")
+export PermutationGroup, nsites
+
+include("symmetries/representation.jl")
+export Representation
+
 
 # export Op, coupling, sites
 

@@ -3,19 +3,33 @@ struct PermutationGroup
 end
 
 # Constructors
-function PermutationGroup(permutations::Vector{Permutation})
-    cxx_perms = cxx_VectorPermutation()
-    for p in permutations
-        push_back(cxx_perms, p.cxx_perm)
+PermutationGroup() = Permutation(cxx_PermutationGroup())
+function PermutationGroup(matrix::Matrix{Int64})
+    matrix0 = matrix .- 1
+    m, n = size(matrix0)
+    memptr = Base.unsafe_convert(Ptr{Int64}, matrix0)
+    return PermutationGroup(cxx_PermutationGroup(memptr, m, n))
+end
+
+function PermutationGroup(perms::Vector{Permutation})
+    if isempty(perms)
+        return PermutationGroup()
+    else
+        nsites = size(perms[1])
+        nperms = size(perms)[1]
+        mat = zeros(Int64, (nsites, nperms))
+        for (i, perm) in enumerate(perms)
+            mat[i, :] = array(perm)
+        end
+        return PermutationGroup(mat)
     end
-    PermutationGroup(cxx_PermutationGroup(cxx_perms))
 end
 
 # Methods
 Base.size(group::PermutationGroup) = size(group.cxx_group)
-n_sites(group::PermutationGroup) = n_sites(group.cxx_group)
-inverse(group::PermutationGroup, idx::Integer) = inverse(group.cxx_group, idx)
+nsites(group::PermutationGroup) = nsites(group.cxx_group)
 
 # Output
+to_string(group::PermutationGroup) = String(to_string(group.cxx_group))
 Base.show(io::IO, group::PermutationGroup) = print(io, "\n" * to_string(group.cxx_group))
 

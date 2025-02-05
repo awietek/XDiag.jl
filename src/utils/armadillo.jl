@@ -11,6 +11,20 @@ function to_armadillo(mat::Matrix{ComplexF64}; copy=true)
     return cxx_arma_cx_mat(memptr, m, n, copy, true)
 end
 
+function to_armadillo(vec::Vector{Float64}; copy=true)
+    m = size(vec)[1]
+    memptr = Base.unsafe_convert(Ptr{Float64}, vec)
+    return cxx_arma_vec(memptr, m, copy, true)
+end
+
+
+function to_armadillo(vec::Vector{ComplexF64}; copy=true)
+    m = size(vec)[1]
+    memptr = Base.unsafe_convert(Ptr{ComplexF64}, vec)
+    return cxx_arma_cx_vec(memptr, m, copy, true)
+end
+
+
 function to_julia(vec::cxx_arma_vec)
     m = n_rows(vec)
     julia_vec = Vector{Float64}(undef, m)
