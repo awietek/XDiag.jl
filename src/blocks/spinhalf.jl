@@ -1,25 +1,26 @@
 struct Spinhalf <: Block
     cxx_block::cxx_Spinhalf
 end
+convert(Spinhalf, block::cxx_Spinhalf) = Spinhalf(block)
 
 # Constructors
-Spinhalf(n_sites::Integer) = Spinhalf(cxx_Spinhalf(n_sites))
-Spinhalf(n_sites::Integer, n_up::Integer) = Spinhalf(cxx_Spinhalf(n_sites, n_up))
-Spinhalf(n_sites::Integer, group::PermutationGroup, irrep::Representation) =
-    Spinhalf(cxx_Spinhalf(n_sites, group.cxx_group, irrep.cxx_representation))
-Spinhalf(n_sites::Integer, n_up::Integer, group::PermutationGroup, irrep::Representation) =
-    Spinhalf(cxx_Spinhalf(n_sites, n_up, group.cxx_group, irrep.cxx_representation))
+Spinhalf() = Spinhalf(cxx_Spinhalf())
+Spinhalf(nsites::Int64, backend::String="auto") =
+    Spinhalf(cxx_Spinhalf(nsites, backend))
+Spinhalf(nsites::Int64, nup::Int64, backend::String="auto") =
+    Spinhalf(cxx_Spinhalf(nsites, nup, backend))
+Spinhalf(nsites::Int64, irrep::Representation, backend::String="auto") =
+    Spinhalf(cxx_Spinhalf(nsites, irrep.cxx_representation, backend))
+Spinhalf(nsites::Int64, nup::Int64, irrep::Representation, backend::String="auto") =
+    Spinhalf(cxx_Spinhalf(nsites, nup, irrep.cxx_representation, backend))
 
 # Methods
-n_sites(block::Spinhalf) = n_sites(block.cxx_block)
-n_up(block::Spinhalf) = n_up(block.cxx_block)
-permutation_group(block::Spinhalf) = PermutationGroup(permutation_group((block.cxx_block)))
-irrep(block::Spinhalf) = Representation(irrep(block.cxx_block))
-Base.isreal(block::Spinhalf) = isreal(block.cxx_block)
-dim(block::Spinhalf) = dim(block.cxx_block)
-Base.size(block::Spinhalf) = size(block.cxx_block)
-index(block::Spinhalf, pstate::ProductState) =
-    Int64(index(block.cxx_block, pstate.cxx_product_state)) + 1
+nsites(block::Spinhalf)::Int64 = nsites(block.cxx_block)
+index(block::Spinhalf, pstate::ProductState)::Int64 =
+    index(block.cxx_block, pstate.cxx_product_state) + 1
+Base.isreal(block::Spinhalf)::Bool = isreal(block.cxx_block)
+dim(block::Spinhalf)::Int64 = dim(block.cxx_block)
+Base.size(block::Spinhalf)::Int64 = size(block.cxx_block)
 
 # Iterators
 function Base.iterate(block::Spinhalf)
@@ -41,4 +42,5 @@ function Base.iterate(block::Spinhalf, state)
 end
 
 # Output
+to_string(block::Spinhalf)::String = to_string(block.cxx_block)
 Base.show(io::IO, block::Spinhalf) = print(io, "\n" * to_string(block.cxx_block))

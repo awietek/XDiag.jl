@@ -1,6 +1,7 @@
 struct PermutationGroup
     cxx_group::cxx_PermutationGroup
 end
+convert(PermutationGroup, g::cxx_PermutationGroup) = PermutationGroup(g)
 
 # Constructors
 PermutationGroup() = Permutation(cxx_PermutationGroup())
@@ -26,10 +27,10 @@ function PermutationGroup(perms::Vector{Permutation})
 end
 
 # Methods
-Base.size(group::PermutationGroup) = size(group.cxx_group)
-nsites(group::PermutationGroup) = nsites(group.cxx_group)
+Base.size(group::PermutationGroup)::Int64 = size(group.cxx_group)
+nsites(group::PermutationGroup)::Int64 = nsites(group.cxx_group)
 
 # Output
-to_string(group::PermutationGroup) = String(to_string(group.cxx_group))
+to_string(group::PermutationGroup)::String = to_string(group.cxx_group)
 Base.show(io::IO, group::PermutationGroup) = print(io, "\n" * to_string(group.cxx_group))
 

@@ -1,6 +1,6 @@
-LinearAlgebra.norm(state::State) = Float64(cxx_norm(state.cxx_state))
-norm1(state::State) = Float64(cxx_norm1(state.cxx_state))
-norminf(state::State) = Float64(cxx_norminf(state.cxx_state))
+LinearAlgebra.norm(state::State)::Float64 = cxx_norm(state.cxx_state)
+norm1(state::State)::Float64 = cxx_norm1(state.cxx_state)
+norminf(state::State)::Float64 = cxx_norminf(state.cxx_state)
 
 function LinearAlgebra.dot(v::State, w::State)
     if isreal(v) && isreal(w)
@@ -28,12 +28,11 @@ function inner(op::Op, v::State)
 end
 
 # Vector space operations
-Base.:+(v::State, w::State) = State(cxx_add(v.cxx_state, w.cxx_state))
-Base.:-(v::State, w::State) = State(cxx_sub(v.cxx_state, w.cxx_state))
-Base.:*(alpha::Float64, v::State) = State(cxx_scalar_mult(alpha, v.cxx_state))
-Base.:*(alpha::ComplexF64, v::State) = State(cxx_scalar_mult(alpha, v.cxx_state))
-Base.:*(v::State, alpha::Float64) = State(cxx_scalar_mult(alpha, v.cxx_state))
-Base.:*(v::State, alpha::ComplexF64) = State(cxx_scalar_mult(alpha, v.cxx_state))
-
-Base.:/(v::State, alpha::Float64) = State(cxx_scalar_div(v.cxx_state, alpha))
-Base.:/(v::State, alpha::ComplexF64) = State(cxx_scalar_div(v.cxx_state, alpha))
+Base.:+(v::State, w::State)::State = cxx_add(v.cxx_state, w.cxx_state)
+Base.:-(v::State, w::State)::State = cxx_sub(v.cxx_state, w.cxx_state)
+Base.:*(alpha::Float64, v::State)::State = cxx_scalar_mult(alpha, v.cxx_state)
+Base.:*(alpha::ComplexF64, v::State)::State = cxx_scalar_mult(alpha, v.cxx_state)
+Base.:*(v::State, alpha::Float64)::State = cxx_scalar_mult(alpha, v.cxx_state)
+Base.:*(v::State, alpha::ComplexF64)::State = cxx_scalar_mult(alpha, v.cxx_state)
+Base.:/(v::State, alpha::Float64)::State = cxx_scalar_div(v.cxx_state, alpha)
+Base.:/(v::State, alpha::ComplexF64)::State = cxx_scalar_div(v.cxx_state, alpha)

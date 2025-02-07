@@ -5,7 +5,10 @@ using CxxWrap
 using XDiag_jll
 using LinearAlgebra
 
-import Base: +, -, *, /, ==, !=, getindex, setindex!, size, isreal, convert, show, real, imag, push!, iterate, fill, rand, zeros, zero, isapprox
+import Base: +, -, *, /, ==, !=
+import Base: getindex, setindex!
+import Base: size, isreal, convert, show, real, imag, push!, iterate, fill
+import Base: rand, zeros, zero, isapprox, inv
 
 import LinearAlgebra: dot, norm
 
@@ -28,7 +31,7 @@ include("operators/hc.jl")
 export hc
 
 include("symmetries/permutation.jl")
-export Permutation, inverse
+export Permutation, inv
 
 include("symmetries/permutation_group.jl")
 export PermutationGroup, nsites
@@ -36,57 +39,41 @@ export PermutationGroup, nsites
 include("symmetries/representation.jl")
 export Representation
 
+include("operators/symmetrize.jl")
+export symmetrize
 
-# export Op, coupling, sites
+include("states/product_state.jl")
+export ProductState
 
-# include("operators/opsum.jl")
-# export OpSum, couplings, defined
+abstract type Block end
+include("blocks/spinhalf.jl")
+include("blocks/tj.jl")
+include("blocks/electron.jl")
+export Spinhalf, tJ, Electron, index, dim
 
-# include("symmetries/permutation.jl")
-# export Permutation, inverse
+include("states/state.jl")
+export State, vector, matrix, col, make_complex!, nrows, ncols
 
-# include("symmetries/permutation_group.jl")
-# export PermutationGroup, n_sites
+include("states/random_state.jl")
+export RandomState, seed, normalized
 
+include("states/gpwf.jl")
+export GPWF
 
-# include("symmetries/representation.jl")
-# export Representation
+include("states/fill.jl")
+export fill
 
-# include("operators/symmetrize.jl")
-# export symmetrize
+include("states/create_state.jl")
+export product
 
-# include("states/product_state.jl")
-# export ProductState, _begin, _end
+include("algebra/matrix.jl")
+export matrix
 
-# abstract type Block end
-# include("blocks/spinhalf.jl")
-# include("blocks/tj.jl")
-# include("blocks/electron.jl")
-# export Spinhalf, tJ, Electron, n_up, n_dn, dim, permutation_group, irrep, index
+include("algebra/apply.jl")
+export apply
 
-# include("states/state.jl")
-# export State, vector, matrix, col, make_complex!, n_rows, n_cols
-
-# include("states/random_state.jl")
-# export RandomState, seed, normalized
-
-# include("states/gpwf.jl")
-# export GPWF
-
-# include("states/fill.jl")
-# export fill
-
-# include("states/create_state.jl")
-# export product
-
-# include("algebra/matrix.jl")
-# export matrix
-
-# include("algebra/apply.jl")
-# export apply
-
-# include("algebra/algebra.jl")
-# export norm, norm1, norminf, dot, inner
+include("algebra/algebra.jl")
+export norm, norm1, norminf, dot, inner
 
 # include("algorithms/sparse_diag.jl")
 # export eig0, eigval0

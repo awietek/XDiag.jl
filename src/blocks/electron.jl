@@ -1,32 +1,26 @@
 struct Electron <: Block
     cxx_block::cxx_Electron
 end
+convert(Electron, block::cxx_Electron) = Electron(block)
 
 # Constructors
-Electron(n_sites::Integer) = Electron(cxx_Electron(n_sites))
-Electron(n_sites::Integer, n_up::Integer, n_dn::Integer) =
-    Electron(cxx_Electron(n_sites, n_up, n_dn))
-Electron(n_sites::Integer, group::PermutationGroup, irrep::Representation) =
-    Electron(cxx_Electron(n_sites, group.cxx_group, irrep.cxx_representation))
-Electron(
-    n_sites::Integer,
-    n_up::Integer,
-    n_dn::Integer,
-    group::PermutationGroup,
-    irrep::Representation,
-) = Electron(cxx_Electron(n_sites, n_up, n_dn, group.cxx_group, irrep.cxx_representation))
+Electron() = Electron(cxx_Electron())
+Electron(nsites::Int64, backend::String="auto") =
+    Electron(cxx_Electron(nsites, backend))
+Electron(nsites::Int64, nup::Int64, ndn::Int64, backend::String="auto") =
+    Electron(cxx_Electron(nsites, nup, ndn, backend))
+Electron(nsites::Int64, irrep::Representation, backend::String="auto") =
+    Electron(cxx_Electron(nsites, irrep.cxx_representation, backend))
+Electron(nsites::Int64, nup::Int64, ndn::Int64, irrep::Representation, backend::String="auto")=
+    Electron(cxx_Electron(nsites, nup, ndn, irrep.cxx_representation, backend))
 
 # Methods
-n_sites(block::Electron) = n_sites(block.cxx_block)
-n_up(block::Electron) = n_up(block.cxx_block)
-n_dn(block::Electron) = n_dn(block.cxx_block)
-permutation_group(block::Electron) = PermutationGroup(permutation_group((block.cxx_block)))
-irrep(block::Electron) = Representation(irrep(block.cxx_block))
-Base.isreal(block::Electron) = isreal(block.cxx_block)
-dim(block::Electron) = dim(block.cxx_block)
-Base.size(block::Electron) = size(block.cxx_block)
-index(block::Electron, pstate::ProductState) =
+nsites(block::Electron)::Int64 = nsites(block.cxx_block)
+index(block::Electron, pstate::ProductState)::Int64 =
     Int64(index(block.cxx_block, pstate.cxx_product_state)) + 1
+Base.isreal(block::Electron)::Bool = isreal(block.cxx_block)
+dim(block::Electron)::Int64 = dim(block.cxx_block)
+Base.size(block::Electron)::Int64 = size(block.cxx_block)
 
 # Iterators
 function Base.iterate(block::Electron)
@@ -48,4 +42,5 @@ function Base.iterate(block::Electron, state)
 end
 
 # Output
+to_string(block::Electron)::String = to_string(block.cxx_block)
 Base.show(io::IO, block::Electron) = print(io, "\n" * to_string(block.cxx_block))

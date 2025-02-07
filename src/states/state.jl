@@ -51,17 +51,16 @@ function State(block::Block, mat::Matrix{ComplexF64})
 end
 
 # Methods
-n_sites(state::State) = n_sites(state.cxx_state)
-Base.isreal(state::State) = isreal(state.cxx_state)
-Base.real(state::State) = State(real(state.cxx_state))
-Base.imag(state::State) = State(imag(state.cxx_state))
+n_sites(state::State)::Int64 = n_sites(state.cxx_state)
+Base.isreal(state::State)::Bool = isreal(state.cxx_state)
+Base.real(state::State)::State = real(state.cxx_state)
+Base.imag(state::State)::State = imag(state.cxx_state)
 make_complex!(state::State) = make_complex(state.cxx_state)
-dim(state::State) = dim(state.cxx_state)
-Base.size(state::State) = size(state.cxx_state)
-n_rows(state::State) = n_rows(state.cxx_state)
-n_cols(state::State) = n_cols(state.cxx_state)
-col(state::State, n::Int64 = 1; copy::Bool = true) =
-    State(col(state.cxx_state, n - 1, copy))
+dim(state::State)::Int64 = dim(state.cxx_state)
+Base.size(state::State)::Int64 = size(state.cxx_state)
+nrows(state::State)::Int64 = nrows(state.cxx_state)
+ncols(state::State)::Int64 = ncols(state.cxx_state)
+col(state::State, n::Int64 = 1; copy::Bool = true)::State = col(state.cxx_state, n - 1, copy)
 
 function vector(state::State; n::Int64 = 1)
     if isreal(state)
@@ -81,4 +80,5 @@ end
 
 
 # Output
+to_string(state::State)::String = to_string(state.cxx_state)
 Base.show(io::IO, state::State) = print(io, "\n" * to_string(state.cxx_state))

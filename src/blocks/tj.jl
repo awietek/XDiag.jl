@@ -1,28 +1,21 @@
 struct tJ <: Block
     cxx_block::cxx_tJ
 end
+convert(tJ, block::cxx_tJ) = tJ(block)
 
 # Constructors
-tJ(n_sites::Integer, n_up::Integer, n_dn::Integer) = tJ(cxx_tJ(n_sites, n_up, n_dn))
-tJ(
-    n_sites::Integer,
-    n_up::Integer,
-    n_dn::Integer,
-    group::PermutationGroup,
-    irrep::Representation,
-) = tJ(cxx_tJ(n_sites, n_up, n_dn, group.cxx_group, irrep.cxx_representation))
+tJ(nsites::Int64, nup::Int64, ndn::Int64, backend::String="auto") =
+    tJ(cxx_tJ(nsites, nup, ndn, backend))
+tJ(nsites::Int64, nup::Int64, ndn::Int64, irrep::Representation, backend::String="auto") =
+    tJ(cxx_tJ(nsites, nup, ndn, irrep.cxx_representation, backend))
 
 # Methods
-n_sites(block::tJ) = n_sites(block.cxx_block)
-n_up(block::tJ) = n_up(block.cxx_block)
-n_dn(block::tJ) = n_dn(block.cxx_block)
-permutation_group(block::tJ) = PermutationGroup(permutation_group((block.cxx_block)))
-irrep(block::tJ) = Representation(irrep(block.cxx_block))
-Base.isreal(block::tJ) = isreal(block.cxx_block)
-dim(block::tJ) = dim(block.cxx_block)
-Base.size(block::tJ) = size(block.cxx_block)
-index(block::tJ, pstate::ProductState) =
-    Int64(index(block.cxx_block, pstate.cxx_product_state)) + 1
+nsites(block::tJ)::Int64 = nsites(block.cxx_block)
+index(block::tJ, pstate::ProductState)::Int64 =
+    index(block.cxx_block, pstate.cxx_product_state) + 1
+Base.isreal(block::tJ)::Bool = isreal(block.cxx_block)
+dim(block::tJ)::Int64 = dim(block.cxx_block)
+Base.size(block::tJ)::Int64 = size(block.cxx_block)
 
 # Iterators
 function Base.iterate(block::tJ)
@@ -44,4 +37,5 @@ function Base.iterate(block::tJ, state)
 end
 
 # Output
+to_string(block::tJ)::String = to_string(block.cxx_block)
 Base.show(io::IO, block::tJ) = print(io, "\n" * to_string(block.cxx_block))
