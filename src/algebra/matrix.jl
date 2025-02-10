@@ -20,8 +20,8 @@ function matrix(ops::OpSum, block_in::Block, block_out::Block)
 end
 matrix(op::Op, block_in::Block, block_out::Block) = matrix(OpSum(op), block_in, block_out)
 
-function matrix(ops::OpSum, block::Block)
-    blockr = Type{Block}(cxx_block(ops, block))
+function matrix(ops::OpSum, block::B) where B <: Block
+    blockr = B(cxx_block(ops.cxx_opsum, block.cxx_block))
     return matrix(ops, block, blockr)
 end
 matrix(op::Op, block::Block) = matrix(OpSum(op), block)
