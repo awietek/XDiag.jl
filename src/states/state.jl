@@ -1,6 +1,8 @@
 struct State
     cxx_state::cxx_State
 end
+convert(State, cxx_state::cxx_State) = State(cxx_state)
+
 
 # Constructors
 State(block::Block; real::Bool = true, n_cols::Int64 = 1) =
@@ -78,6 +80,9 @@ function matrix(state::State)
     end
 end
 
+Base.isapprox(v::State, w::State,
+              rtol::Float64=1e-12, atol::Float64=1e-12)::Bool =
+                  isapprox(v.cxx_state, w.cxx_state, rtol, atol)
 
 # Output
 to_string(state::State)::String = to_string(state.cxx_state)
