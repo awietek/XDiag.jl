@@ -1,7 +1,6 @@
 using XDiag
 using Test
 
-include("operators/coupling.jl")
 include("operators/op.jl")
 include("operators/opsum.jl")
 
