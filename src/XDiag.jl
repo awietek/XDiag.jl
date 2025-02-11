@@ -17,10 +17,11 @@ import LinearAlgebra: dot, norm
 printlib() = println(XDiag_jll.get_libxdiagjl_path())
 export printlib
 
+# Utilities
 export say_hello, print_version, set_verbosity
-
 include("utils/armadillo.jl")
 
+# Operators
 include("operators/op.jl")
 export Op, type, sites, to_string
 
@@ -30,6 +31,7 @@ export OpSum, plain, constants
 include("operators/hc.jl")
 export hc
 
+# Symmetries
 include("symmetries/permutation.jl")
 export Permutation, inv
 
@@ -42,6 +44,7 @@ export Representation
 include("operators/symmetrize.jl")
 export symmetrize
 
+# Blocks
 include("states/product_state.jl")
 export ProductState
 
@@ -51,6 +54,7 @@ include("blocks/tj.jl")
 include("blocks/electron.jl")
 export Spinhalf, tJ, Electron, index, dim
 
+# States
 include("states/state.jl")
 export State, vector, matrix, col, make_complex!, nrows, ncols
 
@@ -64,8 +68,9 @@ include("states/fill.jl")
 export fill
 
 include("states/create_state.jl")
-export product
+export product_state, random_state, zero_state, zero
 
+# Algebra
 include("algebra/matrix.jl")
 export matrix
 
@@ -75,14 +80,35 @@ export apply
 include("algebra/algebra.jl")
 export norm, norm1, norminf, dot, inner
 
-# include("algorithms/sparse_diag.jl")
-# export eig0, eigval0
+# Diagonalization
+include("algorithms/sparse_diag.jl")
+export eig0, eigval0
 
-# include("algorithms/lanczos/eigvals_lanczos.jl")
-# export eigvals_lanczos
+include("algorithms/lanczos/eigvals_lanczos.jl")
+export eigvals_lanczos
 
-# include("algorithms/lanczos/eigs_lanczos.jl")
-# export eigs_lanczos
+include("algorithms/lanczos/eigs_lanczos.jl")
+export eigs_lanczos
+
+# Time evolution
+include("algorithms/time_evolution/time_evolve.jl")
+export time_evolve, time_evolve_inplace
+
+include("algorithms/time_evolution/imaginary_time_evolve.jl")
+export imaginary_time_evolve, imaginary_time_evolve_inplace
+
+include("algorithms/time_evolution/time_evolve_expokit.jl")
+export time_evolve_expokit, time_evolve_expokit_inplace
+
+include("algorithms/time_evolution/evolve_lanczos.jl")
+export evolve_lanczos, evolve_lanczos_inplace
+
+# IO
+include("io/file_toml.jl")
+export FileToml
+
+include("io/read.jl")
+export read_permutation_group, read_representation, read_opsum
 
 function __init__()
     @initcxx
