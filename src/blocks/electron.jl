@@ -1,7 +1,7 @@
 struct Electron <: Block
     cxx_block::cxx_Electron
 end
-convert(Electron, block::cxx_Electron) = Electron(block)
+convert(::Type{T}, block::cxx_Electron) where T <: Electron = Electron(block)
 
 # Constructors
 Electron() = Electron(cxx_Electron())

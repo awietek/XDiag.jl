@@ -6,7 +6,7 @@ struct EvolveLanczosResult
     criterion::String
     state::State
 end
-convert(EvolveLanczosResult, res::cxx_EvolveLanczosResult) =
+convert(::Type{T}, res::cxx_EvolveLanczosResult) where T <: EvolveLanczosResult =
     EvolveLanczosResult(to_julia(alphas(res)),
                         to_julia(betas(res)),
                         to_julia(eigenvalues(res)),
@@ -42,7 +42,7 @@ struct EvolveLanczosInplaceResult
     niterations::Int64
     criterion::String
 end
-convert(EvolveLanczosInplaceResult, res::cxx_EvolveLanczosInplaceResult) =
+convert(::Type{T}, res::cxx_EvolveLanczosInplaceResult) where T <: EvolveLanczosInplaceResult =
     EvolveLanczosInplaceResult(to_julia(alphas(res)),
                                to_julia(betas(res)),
                                to_julia(eigenvalues(res)),

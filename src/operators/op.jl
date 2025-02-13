@@ -1,7 +1,7 @@
 struct Op
     cxx_op::cxx_Op
 end
-convert(Op, o::cxx_Op) = Op(o)
+convert(::Type{T}, o::cxx_Op) where T <: Op = Op(o)
 
 # Constructors
 Op() = Op(cxx_Op())

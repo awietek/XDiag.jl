@@ -1,7 +1,7 @@
 struct Permutation
     cxx_permutation::cxx_Permutation
 end
-convert(Permutation, p::cxx_Permutation) = Permutation(p)
+convert(::Type{T}, p::cxx_Permutation) where T <: Permutation = Permutation(p)
 
 # Constructors
 Permutation() = Permutation(cxx_Permutation())

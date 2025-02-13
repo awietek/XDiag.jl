@@ -6,7 +6,7 @@ struct EigsLanczosResult
     niterations::Int64
     criterion::String
 end
-convert(EigsLanczosResult, res::cxx_EigsLanczosResult) =
+convert(::Type{T}, res::cxx_EigsLanczosResult) where T <: EigsLanczosResult =
     EigsLanczosResult(to_julia(alphas(res)),
                       to_julia(betas(res)),
                       to_julia(eigenvalues(res)),

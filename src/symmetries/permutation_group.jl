@@ -1,7 +1,8 @@
 struct PermutationGroup
     cxx_group::cxx_PermutationGroup
 end
-convert(PermutationGroup, g::cxx_PermutationGroup) = PermutationGroup(g)
+convert(::Type{T}, g::cxx_PermutationGroup) where T <: PermutationGroup =
+    PermutationGroup(g)
 
 # Constructors
 PermutationGroup() = Permutation(cxx_PermutationGroup())

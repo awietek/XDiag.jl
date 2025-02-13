@@ -3,7 +3,7 @@ struct TimeEvolveExpokitResult
     hump::Float64
     state::State
 end
-convert(TimeEvolveExpokitResult, res::cxx_TimeEvolveExpokitResult) =
+convert(::Type{T}, res::cxx_TimeEvolveExpokitResult) where T <: TimeEvolveExpokitResult =
     TimeEvolveExpokitResult(error(res), hump(res), state(res))
 
 time_evolve_expokit(ops::OpSum, state::State, time::Float64;
@@ -18,7 +18,7 @@ struct TimeEvolveExpokitInplaceResult
     error::Float64
     hump::Float64
 end
-convert(TimeEvolveExpokitInplaceResult, res::cxx_TimeEvolveExpokitInplaceResult) =
+convert(::Type{T}, res::cxx_TimeEvolveExpokitInplaceResult) where T <: TimeEvolveExpokitInplaceResult =
     TimeEvolveExpokitInplaceResult(error(res), hump(res))
 
 

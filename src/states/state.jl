@@ -1,7 +1,7 @@
 struct State
     cxx_state::cxx_State
 end
-convert(State, cxx_state::cxx_State) = State(cxx_state)
+convert(::Type{T}, cxx_state::cxx_State) where T<: State = State(cxx_state)
 
 
 # Constructors

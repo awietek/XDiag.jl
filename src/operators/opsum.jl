@@ -1,7 +1,7 @@
 struct OpSum
     cxx_opsum::cxx_OpSum
 end
-convert(OpSum, os::cxx_OpSum) = OpSum(os)
+convert(::Type{T}, os::cxx_OpSum) where T <: OpSum = OpSum(os)
 
 # Constructors
 OpSum() = OpSum(cxx_OpSum())

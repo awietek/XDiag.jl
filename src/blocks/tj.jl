@@ -1,7 +1,7 @@
 struct tJ <: Block
     cxx_block::cxx_tJ
 end
-convert(tJ, block::cxx_tJ) = tJ(block)
+convert(::Type{T}, block::cxx_tJ) where T <: tJ = tJ(block)
 
 # Constructors
 tJ(nsites::Int64, nup::Int64, ndn::Int64, backend::String="auto") =

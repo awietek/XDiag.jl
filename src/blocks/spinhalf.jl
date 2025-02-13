@@ -1,7 +1,7 @@
 struct Spinhalf <: Block
     cxx_block::cxx_Spinhalf
 end
-convert(Spinhalf, block::cxx_Spinhalf) = Spinhalf(block)
+convert(::Type{T}, block::cxx_Spinhalf) where T <: Spinhalf = Spinhalf(block)
 
 # Constructors
 Spinhalf() = Spinhalf(cxx_Spinhalf())

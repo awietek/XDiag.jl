@@ -1,7 +1,8 @@
 struct Representation
     cxx_representation::cxx_Representation
 end
-convert(Representation, r::cxx_Representation) = Representation(r)
+convert(::Type{T}, r::cxx_Representation) where T <: Representation =
+    Representation(r)
 
 # Constructors
 Representation(group::PermutationGroup) = Representation(cxx_Representation(group.cxx_group))

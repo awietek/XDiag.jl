@@ -20,7 +20,8 @@ jobs:
         version:
           - '1.9'
           - '1.10'
-        os:
+          - '1.11'
+        os:	
           - ubuntu-latest
         arch:
           - x64
