@@ -85,7 +85,7 @@ include("algorithms/sparse_diag.jl")
 export eig0, eigval0
 
 include("algorithms/lanczos/eigvals_lanczos.jl")
-export eigvals_lanczos
+export eigvals_lanczos, eigvals_lanczos_inplace
 
 include("algorithms/lanczos/eigs_lanczos.jl")
 export eigs_lanczos
