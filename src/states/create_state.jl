@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 product_state(block::Block, local_states::Vector{String};
               real::Bool=true)::State =
                   cxx_product_state(block.cxx_block,

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 function to_armadillo(mat::Matrix{Float64}; copy=true)
     m, n = size(mat)
     memptr = Base.unsafe_convert(Ptr{Float64}, mat)

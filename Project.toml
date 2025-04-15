@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name = "XDiag"
 uuid = "3edaab83-692e-476a-bab5-541af84d25fc"
 authors = ["Alex Wietek <awietek@pks.mpg.de> and contributors"]

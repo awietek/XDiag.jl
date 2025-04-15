@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 @testset "eigs_lanczos" begin
     N = 8
     block = Spinhalf(N,  N ÷ 2)

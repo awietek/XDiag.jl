@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 @testset "State" begin
     block = Spinhalf(2)
     v = [1.0, 2.0, 3.0, 4.0]

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 fill(state::State, pstate::ProductState, ncol::Int64 = 1) =
     cxx_fill(state.cxx_state, pstate.cxx_product_state, ncol-1)
 fill(state::State, rstate::RandomState, ncol::Int64 = 1) =

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 symmetrize(op::Op, group::PermutationGroup)::OpSum =
     cxx_symmetrize(op.cxx_op, group.cxx_group)
 symmetrize(op::Op, irrep::Representation)::OpSum =

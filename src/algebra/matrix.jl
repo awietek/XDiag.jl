@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 function matrix(ops::OpSum, block_in::Block, block_out::Block)
     if isreal(ops) && isreal(block_in) && isreal(block_out)
         # Allocate matrix on julia side

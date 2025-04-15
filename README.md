@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ![license](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![docs](https://img.shields.io/badge/Documentation-here-red.svg)](https://awietek.github.io/xdiag)
 [![Linux CI](https://github.com/awietek/xdiag/actions/workflows/linux.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/linux.yml)

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 LinearAlgebra.norm(state::State)::Float64 = cxx_norm(state.cxx_state)
 norm1(state::State)::Float64 = cxx_norm1(state.cxx_state)
 norminf(state::State)::Float64 = cxx_norminf(state.cxx_state)

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 imaginary_time_evolve(ops::OpSum,
                       psi0::State,
                       time::Float64; 

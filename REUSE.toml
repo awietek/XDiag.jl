@@ -1,0 +1,7 @@
+version = 1
+
+[[annotations]]
+path = ".github/**"
+SPDX-FileCopyrightText = "2025 Alexander Wietek <awietek@pks.mpg.de>"
+SPDX-License-Identifier = "Apache-2.0"
+

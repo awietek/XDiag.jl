@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 read_permutation_group(file::FileToml, tag::String)::PermutationGroup =
     cxx_read_permutation_group(file.cxx_file, tag)
 

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 time_evolve(ops::OpSum, psi0::State, time::Float64; 
             precision::Float64 = 1e-12, algorithm::String = "lanczos")::State =
                 cxx_time_evolve(ops.cxx_opsum, psi0.cxx_state, time,
