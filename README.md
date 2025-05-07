@@ -9,7 +9,6 @@ SPDX-License-Identifier: Apache-2.0
 [![Julia CI](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml)
 
 # XDiag
-## High-performance Yxact Diagonalization Routines and Algorithms
 
 A Julia library to perform efficient Exact Diagonalizations of quantum many body systems. 
 
