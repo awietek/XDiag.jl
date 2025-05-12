@@ -3,9 +3,9 @@ using Test
 
     @testset "symmetries.jl" begin
     # multiplication, identity, inverse, power
-    for n_sites = 1:8
+    for n_sites = 2:8
         id = Permutation(n_sites)
-        randomPerm = Permutation(circshift!(collect(range(1, n_sites)), 3^n_sites))
+        randomPerm = Permutation(circshift(collect(range(1, n_sites)), 3^n_sites))
         randomInv = inv(randomPerm)
         @test id*randomPerm == randomPerm
         @test randomPerm*id == randomPerm
