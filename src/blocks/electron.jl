@@ -8,15 +8,15 @@ end
 convert(::Type{T}, block::cxx_Electron) where T <: Electron = Electron(block)
 
 # Constructors
-Electron() = Electron(cxx_Electron())
+Electron() = Electron(construct_Electron())
 Electron(nsites::Int64, backend::String="auto") =
-    Electron(cxx_Electron(nsites, backend))
+    Electron(construct_Electron(nsites, backend))
 Electron(nsites::Int64, nup::Int64, ndn::Int64, backend::String="auto") =
-    Electron(cxx_Electron(nsites, nup, ndn, backend))
+    Electron(construct_Electron(nsites, nup, ndn, backend))
 Electron(nsites::Int64, irrep::Representation, backend::String="auto") =
-    Electron(cxx_Electron(nsites, irrep.cxx_representation, backend))
+    Electron(construct_Electron(nsites, irrep.cxx_representation, backend))
 Electron(nsites::Int64, nup::Int64, ndn::Int64, irrep::Representation, backend::String="auto")=
-    Electron(cxx_Electron(nsites, nup, ndn, irrep.cxx_representation, backend))
+    Electron(construct_Electron(nsites, nup, ndn, irrep.cxx_representation, backend))
 
 # Methods
 nsites(block::Electron)::Int64 = nsites(block.cxx_block)

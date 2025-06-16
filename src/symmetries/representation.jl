@@ -9,11 +9,11 @@ convert(::Type{T}, r::cxx_Representation) where T <: Representation =
     Representation(r)
 
 # Constructors
-Representation(group::PermutationGroup) = Representation(cxx_Representation(group.cxx_group))
+Representation(group::PermutationGroup) = Representation(construct_Representation(group.cxx_group))
 Representation(group::PermutationGroup, characters::Vector{Float64}) =
-    Representation(cxx_Representation(group.cxx_group, to_armadillo(characters)))
+    Representation(construct_Representation(group.cxx_group, to_armadillo(characters)))
 Representation(group::PermutationGroup, characters::Vector{ComplexF64}) =
-    Representation(cxx_Representation(group.cxx_group, to_armadillo(characters)))
+    Representation(construct_Representation(group.cxx_group, to_armadillo(characters)))
 
 # Methods
 Base.size(irrep::Representation)::Int64 = size(irrep.cxx_representation)

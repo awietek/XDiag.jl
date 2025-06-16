@@ -7,10 +7,10 @@ struct ProductState
 end
 
 # Constructors
-ProductState() = ProductState(cxx_ProductState())
-ProductState(n_sites::Int64) = ProductState(cxx_ProductState(n_sites))
+ProductState() = ProductState(construct_ProductState())
+ProductState(n_sites::Int64) = ProductState(construct_ProductState(n_sites))
 ProductState(local_states::Vector{String}) =
-    ProductState(cxx_ProductState(StdVector(StdString.(local_states))))
+    ProductState(construct_ProductState(StdVector(StdString.(local_states))))
 
 # Methods
 nsites(state::ProductState)::Int64 = nsites(state.cxx_product_state)

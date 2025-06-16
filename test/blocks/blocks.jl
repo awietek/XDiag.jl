@@ -45,6 +45,42 @@
         # @show pstate
         idx += 1
     end
+
+    # test constructors
+    p1 = Permutation([1, 2])
+    p2 = Permutation([2, 1])
+    g = PermutationGroup([p1, p2])
+    r = Representation(g)
     
+    b = Spinhalf()
+    b = Spinhalf(2, "auto")
+    b = Spinhalf(2, 1, "auto")
+    b = Spinhalf(2, r, "auto")
+    b = Spinhalf(2, 1, r, "auto")
+    b = Spinhalf(2)
+    b = Spinhalf(2, 1)
+    b = Spinhalf(2, r)
+    b = Spinhalf(2, 1, r)
+    # b = Spinhalf(-1)
+    
+    
+    b = tJ()
+    b = tJ(2, 1, 1)
+    b = tJ(2, 1, 1, r)
+    b = tJ(2, 1, 1, "auto")
+    b = tJ(2, 1, 1, r, "auto")
+    # b = tJ(2, 2, 1, r, "auto")
+    
+    b = Electron()
+    b = Electron()
+    b = Electron(2)
+    b = Electron(2, r)
+    b = Electron(2, 1, 1)
+    b = Electron(2, 1, 1, r)
+    b = Electron(2, "auto")
+    b = Electron(2, r, "auto")
+    b = Electron(2, 1, 1, "auto")
+    b = Electron(2, 1, 1, r, "auto")
+    # b = Electron(-2, 2, 1, r, "auto")
     
 end

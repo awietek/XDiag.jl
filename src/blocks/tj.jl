@@ -8,10 +8,11 @@ end
 convert(::Type{T}, block::cxx_tJ) where T <: tJ = tJ(block)
 
 # Constructors
+tJ() = tJ(construct_tJ())
 tJ(nsites::Int64, nup::Int64, ndn::Int64, backend::String="auto") =
-    tJ(cxx_tJ(nsites, nup, ndn, backend))
+    tJ(construct_tJ(nsites, nup, ndn, backend))
 tJ(nsites::Int64, nup::Int64, ndn::Int64, irrep::Representation, backend::String="auto") =
-    tJ(cxx_tJ(nsites, nup, ndn, irrep.cxx_representation, backend))
+    tJ(construct_tJ(nsites, nup, ndn, irrep.cxx_representation, backend))
 
 # Methods
 nsites(block::tJ)::Int64 = nsites(block.cxx_block)

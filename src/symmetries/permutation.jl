@@ -8,9 +8,9 @@ end
 convert(::Type{T}, p::cxx_Permutation) where T <: Permutation = Permutation(p)
 
 # Constructors
-Permutation() = Permutation(cxx_Permutation())
-Permutation(size::Int64) = Permutation(cxx_Permutation(size))
-Permutation(array::Vector{Int64}) = Permutation(cxx_Permutation(StdVector(array .- 1)))
+Permutation() = Permutation(construct_Permutation())
+Permutation(size::Int64) = Permutation(construct_Permutation(size))
+Permutation(array::Vector{Int64}) = Permutation(construct_Permutation(StdVector(array .- 1)))
 
 # Methods
 Base.inv(perm::Permutation)::Permutation = inv(perm.cxx_permutation)

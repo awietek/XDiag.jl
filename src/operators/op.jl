@@ -8,21 +8,21 @@ end
 convert(::Type{T}, o::cxx_Op) where T <: Op = Op(o)
 
 # Constructors
-Op() = Op(cxx_Op())
-Op(type::String) = Op(cxx_Op(type))
+Op() = Op(construct_Op())
+Op(type::String) = Op(construct_Op(type))
 
-Op(type::String, site::Int64) = Op(cxx_Op(type, site-1))
-Op(type::String, sites::Vector{Int64}) = Op(cxx_Op(type, StdVector(sites .- 1)))
+Op(type::String, site::Int64) = Op(construct_Op(type, site-1))
+Op(type::String, sites::Vector{Int64}) = Op(construct_Op(type, StdVector(sites .- 1)))
 
 Op(type::String, site::Int64, mat::Matrix{Float64}) =
-    Op(cxx_Op(type, site-1, to_armadillo(mat)))
+    Op(construct_Op(type, site-1, to_armadillo(mat)))
 Op(type::String, sites::Vector{Int64}, mat::Matrix{Float64}) =
-    Op(cxx_Op(type, StdVector(sites .- 1), to_armadillo(mat)))
+    Op(construct_Op(type, StdVector(sites .- 1), to_armadillo(mat)))
 
 Op(type::String, site::Int64, mat::Matrix{ComplexF64}) =
-    Op(cxx_Op(type, site-1, to_armadillo(mat)))
+    Op(construct_Op(type, site-1, to_armadillo(mat)))
 Op(type::String, sites::Vector{Int64}, mat::Matrix{ComplexF64}) =
-    Op(cxx_Op(type, StdVector(sites .- 1), to_armadillo(mat)))
+    Op(construct_Op(type, StdVector(sites .- 1), to_armadillo(mat)))
 
 # Methods
 type(op::Op)::String = strip(type(op.cxx_op))

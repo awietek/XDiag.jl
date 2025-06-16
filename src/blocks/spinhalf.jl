@@ -8,15 +8,15 @@ end
 convert(::Type{T}, block::cxx_Spinhalf) where T <: Spinhalf = Spinhalf(block)
 
 # Constructors
-Spinhalf() = Spinhalf(cxx_Spinhalf())
+Spinhalf() = Spinhalf(construct_Spinhalf())
 Spinhalf(nsites::Int64, backend::String="auto") =
-    Spinhalf(cxx_Spinhalf(nsites, backend))
+    Spinhalf(construct_Spinhalf(nsites, backend))
 Spinhalf(nsites::Int64, nup::Int64, backend::String="auto") =
-    Spinhalf(cxx_Spinhalf(nsites, nup, backend))
+    Spinhalf(construct_Spinhalf(nsites, nup, backend))
 Spinhalf(nsites::Int64, irrep::Representation, backend::String="auto") =
-    Spinhalf(cxx_Spinhalf(nsites, irrep.cxx_representation, backend))
+    Spinhalf(construct_Spinhalf(nsites, irrep.cxx_representation, backend))
 Spinhalf(nsites::Int64, nup::Int64, irrep::Representation, backend::String="auto") =
-    Spinhalf(cxx_Spinhalf(nsites, nup, irrep.cxx_representation, backend))
+    Spinhalf(construct_Spinhalf(nsites, nup, irrep.cxx_representation, backend))
 
 # Methods
 nsites(block::Spinhalf)::Int64 = nsites(block.cxx_block)

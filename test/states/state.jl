@@ -25,4 +25,7 @@
     @test !isreal(psi3)
     @test vector(real(psi3)) == real(v)
     @test vector(imag(psi3)) == imag(v)
+
+    # s = State(block; real=true, n_cols=0)
+    
 end

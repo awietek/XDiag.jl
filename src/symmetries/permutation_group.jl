@@ -9,12 +9,12 @@ convert(::Type{T}, g::cxx_PermutationGroup) where T <: PermutationGroup =
     PermutationGroup(g)
 
 # Constructors
-PermutationGroup() = Permutation(cxx_PermutationGroup())
+PermutationGroup() = Permutation(construct_PermutationGroup())
 function PermutationGroup(matrix::Matrix{Int64})
     matrix0 = matrix .- 1
     m, n = size(matrix0)
     memptr = Base.unsafe_convert(Ptr{Int64}, matrix0)
-    return PermutationGroup(cxx_PermutationGroup(memptr, m, n))
+    return PermutationGroup(construct_PermutationGroup(memptr, m, n))
 end
 
 function PermutationGroup(perms::Vector{Permutation})
@@ -23,7 +23,7 @@ function PermutationGroup(perms::Vector{Permutation})
     else
         nsites = size(perms[1])
         nperms = size(perms)[1]
-        mat = zeros(Int64, (nsites, nperms))
+        mat = zeros(Int64, (nperms, nsites))
         for (i, perm) in enumerate(perms)
             mat[i, :] = array(perm)
         end

@@ -7,7 +7,7 @@ struct RandomState
 end
 
 # Constructors
-RandomState(seed::Int64 = 42, normalized::Bool = true) = RandomState(cxx_RandomState(seed, normalized))
+RandomState(seed::Int64 = 42, normalized::Bool = true) = RandomState(construct_RandomState(seed, normalized))
 
 # Methods
 seed(state::RandomState) = seed(state.cxx_random_state)

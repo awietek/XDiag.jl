@@ -10,7 +10,7 @@ convert(::Type{T}, cxx_state::cxx_State) where T<: State = State(cxx_state)
 
 # Constructors
 State(block::Block; real::Bool = true, n_cols::Int64 = 1) =
-    State(cxx_State(block.cxx_block, real, n_cols))
+    State(construct_State(block.cxx_block, real, n_cols))
 
 function State(block::Block, vec::Vector{Float64})
     m = length(vec)
@@ -19,7 +19,7 @@ function State(block::Block, vec::Vector{Float64})
     end
 
     memptr = Base.unsafe_convert(Ptr{Float64}, vec)
-    State(cxx_State(block.cxx_block, memptr, 1, 1))
+    State(construct_State(block.cxx_block, memptr, 1, 1))
 end
 
 function State(block::Block, vec::Vector{ComplexF64})
@@ -29,7 +29,7 @@ function State(block::Block, vec::Vector{ComplexF64})
     end
 
     memptr = Base.unsafe_convert(Ptr{ComplexF64}, vec)
-    State(cxx_State(block.cxx_block, memptr, 1))
+    State(construct_State(block.cxx_block, memptr, 1))
 end
 
 function State(block::Block, mat::Matrix{Float64})
@@ -40,7 +40,7 @@ function State(block::Block, mat::Matrix{Float64})
     end
 
     memptr = Base.unsafe_convert(Ptr{Float64}, mat)
-    State(cxx_State(block.cxx_block, memptr, n, 1))
+    State(construct_State(block.cxx_block, memptr, n, 1))
 end
 
 function State(block::Block, mat::Matrix{ComplexF64})
@@ -53,7 +53,7 @@ function State(block::Block, mat::Matrix{ComplexF64})
     end
 
     memptr = Base.unsafe_convert(Ptr{ComplexF64}, mat)
-    State(cxx_State(block.cxx_block, memptr, n))
+    State(construct_State(block.cxx_block, memptr, n))
 end
 
 # Methods

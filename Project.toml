@@ -5,7 +5,7 @@
 name = "XDiag"
 uuid = "3edaab83-692e-476a-bab5-541af84d25fc"
 authors = ["Alex Wietek <awietek@pks.mpg.de> and contributors"]
-version = "0.3.2"
+version = "0.3.3"
 
 [deps]
 CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
@@ -14,9 +14,9 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 XDiag_jll = "05e47fe5-458f-5313-a276-ec18ac0ef94c"
 
 [compat]
-CxxWrap = "0.13, 0.14, 0.15, 0.16"
+CxxWrap = "0.13, 0.14, 0.15, 0.16, 0.17"
 Printf = "1.0.0"
-XDiag_jll = "=0.3.2"
+XDiag_jll = "=0.3.3"
 julia = "1.7"
 LinearAlgebra = "1" 
 

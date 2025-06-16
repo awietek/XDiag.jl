@@ -8,19 +8,21 @@ end
 convert(::Type{T}, os::cxx_OpSum) where T <: OpSum = OpSum(os)
 
 # Constructors
-OpSum() = OpSum(cxx_OpSum())
-OpSum(op::Op) = OpSum(cxx_OpSum(op.cxx_op))
-OpSum(coupling::Float64, op::Op) = OpSum(cxx_OpSum(coupling, op.cxx_op))
-OpSum(coupling::ComplexF64, op::Op) = OpSum(cxx_OpSum(coupling, op.cxx_op))
-OpSum(coupling::String, op::Op) = OpSum(cxx_OpSum(coupling, op.cxx_op))
+OpSum() = OpSum(construct_OpSum())
+OpSum(op::Op) = OpSum(construct_OpSum(op.cxx_op))
+OpSum(coupling::Int64, op::Op) = OpSum(construct_OpSum(coupling, op.cxx_op))
+OpSum(coupling::Float64, op::Op) = OpSum(construct_OpSum(coupling, op.cxx_op))
+OpSum(coupling::ComplexF64, op::Op) = OpSum(construct_OpSum(coupling, op.cxx_op))
+OpSum(coupling::String, op::Op) = OpSum(construct_OpSum(coupling, op.cxx_op))
 
 # Methods
 plain(ops::OpSum)::OpSum = plain(ops.cxx_opsum)
 
 # * Creation
-Base.:*(coupling::Float64, op::Op)::OpSum = cxx_OpSum(coupling, op.cxx_op)
-Base.:*(coupling::ComplexF64, op::Op)::OpSum = cxx_OpSum(coupling, op.cxx_op)
-Base.:*(coupling::String, op::Op)::OpSum = cxx_OpSum(coupling, op.cxx_op)
+Base.:*(coupling::Int64, op::Op)::OpSum = construct_OpSum(coupling, op.cxx_op)
+Base.:*(coupling::Float64, op::Op)::OpSum = construct_OpSum(coupling, op.cxx_op)
+Base.:*(coupling::ComplexF64, op::Op)::OpSum = construct_OpSum(coupling, op.cxx_op)
+Base.:*(coupling::String, op::Op)::OpSum = construct_OpSum(coupling, op.cxx_op)
 
 # + addition / - subtraction
 Base.:+(ops1::OpSum, ops2::OpSum)::OpSum = ops1.cxx_opsum + ops2.cxx_opsum
@@ -30,14 +32,18 @@ Base.:-(ops1::OpSum, ops2::OpSum)::OpSum = ops1.cxx_opsum - ops2.cxx_opsum
 Base.:-(ops::OpSum, op::Op)::OpSum = ops.cxx_opsum - op.cxx_op
 
 # scalar multiplication / division
+Base.:*(coupling::Int64, ops::OpSum)::OpSum = coupling * ops.cxx_opsum
 Base.:*(coupling::Float64, ops::OpSum)::OpSum = coupling * ops.cxx_opsum
 Base.:*(coupling::ComplexF64, ops::OpSum)::OpSum = coupling * ops.cxx_opsum
+Base.:*(ops::OpSum, coupling::Int64)::OpSum = coupling * ops.cxx_opsum
 Base.:*(ops::OpSum, coupling::Float64)::OpSum = coupling * ops.cxx_opsum
 Base.:*(ops::OpSum, coupling::ComplexF64)::OpSum = coupling * ops.cxx_opsum
+Base.:/(ops::OpSum, coupling::Int64)::OpSum = ops.cxx_opsum / coupling
 Base.:/(ops::OpSum, coupling::Float64)::OpSum = ops.cxx_opsum / coupling
 Base.:/(ops::OpSum, coupling::ComplexF64)::OpSum = ops.cxx_opsum / coupling
 
 # setting coupling constants
+Base.setindex!(ops::OpSum, cpl::Int64, name::String) = setindex!(ops.cxx_opsum, name, cpl)
 Base.setindex!(ops::OpSum, cpl::Float64, name::String) = setindex!(ops.cxx_opsum, name, cpl)
 Base.setindex!(ops::OpSum, cpl::ComplexF64, name::String) = setindex!(ops.cxx_opsum, name, cpl)
 
