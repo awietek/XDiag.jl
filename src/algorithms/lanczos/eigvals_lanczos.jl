@@ -44,3 +44,33 @@ eigvals_lanczos_inplace(ops::OpSum, psi0::State; neigvals::Int64 = 1,
                                                         max_iterations,
                                                         deflation_tol)
 
+
+
+eigvals_lanczos(ops::CSRMatrix, block::Block; neigvals::Int64 = 1, 
+		precision::Float64 = 1e-12,
+                max_iterations::Int64 = 1000,
+                deflation_tol::Float64 = 1e-7,
+                random_seed::Int64 = 42)::EigvalsLanczosResult = 
+    cxx_eigvals_lanczos(to_cxx_csr_matrix(ops), block.cxx_block, neigvals, precision,
+                               max_iterations, deflation_tol, random_seed)
+
+
+eigvals_lanczos(ops::CSRMatrix, psi0::State; neigvals::Int64 = 1, 
+		precision::Float64 = 1e-12,
+                max_iterations::Int64 = 1000,
+                deflation_tol::Float64 = 1e-7)::EigvalsLanczosResult =
+    cxx_eigvals_lanczos(to_cxx_csr_matrix(ops), psi0.cxx_state, neigvals, precision,
+                        max_iterations, deflation_tol)
+
+
+eigvals_lanczos_inplace(ops::CSRMatrix, psi0::State; neigvals::Int64 = 1, 
+		        precision::Float64 = 1e-12,
+                        max_iterations::Int64 = 1000,
+                        deflation_tol::Float64 = 1e-7)::EigvalsLanczosResult =
+                            cxx_eigvals_lanczos_inplace(to_cxx_csr_matrix(ops),
+                                                        psi0.cxx_state,
+                                                        neigvals,
+                                                        precision,
+                                                        max_iterations,
+                                                        deflation_tol)
+

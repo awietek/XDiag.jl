@@ -84,6 +84,20 @@ export apply
 include("algebra/algebra.jl")
 export norm, norm1, norminf, dot, inner
 
+include("algebra/sparse/sparse_matrix_types.jl")
+export COOMatrix, CSRMatrix, CSCMatrix
+
+include("algebra/sparse/coo_matrix.jl")
+export coo_matrix, coo_matrixC, coo_matrix_32, coo_matrixC_32, to_dense
+
+include("algebra/sparse/csr_matrix.jl")
+export csr_matrix, csr_matrixC, csr_matrix_32, csr_matrixC_32
+
+include("algebra/sparse/csc_matrix.jl")
+export csc_matrix, csc_matrixC, csc_matrix_32, csc_matrixC_32
+
+include("algebra/sparse/apply.jl")
+
 # Diagonalization
 include("algorithms/sparse_diag.jl")
 export eig0, eigval0
