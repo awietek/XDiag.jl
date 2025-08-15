@@ -82,7 +82,7 @@ include("algebra/apply.jl")
 export apply
 
 include("algebra/algebra.jl")
-export norm, norm1, norminf, dot, inner
+export norm, norm1, norminf, dot, inner, matrix_dot
 
 include("algebra/sparse/sparse_matrix_types.jl")
 export COOMatrix, CSRMatrix, CSCMatrix
