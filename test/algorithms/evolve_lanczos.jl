@@ -10,19 +10,28 @@
         ops += Op("SdotS", [i, mod1(i+1, N)])
     end
 
+    N = 4
+    blockc = Electron(N, 2, 2)
+    opsc = OpSum()
+    for i in 1:N
+        opsc += (1.0 + 1.0im) * Op("Hop", [i, mod1(i+1, N)])
+    end
+
+    
     r = random_state(block)
+    rC = random_state(blockc; real=false)
 
     csr = csr_matrix(ops, block)
     csr32 = csr_matrix_32(ops, block)
-    csrC = csr_matrixC(ops, block)
-    csrC32 = csr_matrixC_32(ops, block)
+    csrC = csr_matrix(opsc, blockc)
+    csrC32 = csr_matrix_32(opsc, blockc)
 
     # real
     psi = evolve_lanczos(ops, r, 1.0)
     psicsr = evolve_lanczos(csr, r, 1.0)
     psicsr32 = evolve_lanczos(csr32, r, 1.0)
-    psicsrC = evolve_lanczos(csrC, r, 1.0)
-    psicsrC32 = evolve_lanczos(csrC32, r, 1.0)
+    psicsrC = evolve_lanczos(csrC, rC, 1.0)
+    psicsrC32 = evolve_lanczos(csrC32, rC, 1.0)
     @test isapprox(psi.state, psicsr.state)
     @test isapprox(psi.state, psicsr32.state)
     @test isapprox(psicsrC.state, psicsrC32.state)
@@ -36,10 +45,10 @@
     psicsr32 = random_state(block; seed=42)
     evolve_lanczos_inplace(csr32, psicsr32, 1.0)
 
-    psicsrC = random_state(block; seed=42)
+    psicsrC = random_state(blockc; real=false, seed=42)
     evolve_lanczos_inplace(csrC, psicsrC, 1.0)
     
-    psicsrC32 = random_state(block; seed=42)
+    psicsrC32 = random_state(blockc; real=false, seed=42)
     evolve_lanczos_inplace(csrC32, psicsrC32, 1.0)
 
     @test isapprox(psi, psicsr)
@@ -51,8 +60,8 @@
     psi = evolve_lanczos(ops, r, 1.0im)
     psicsr = evolve_lanczos(csr, r, 1.0im)
     psicsr32 = evolve_lanczos(csr32, r, 1.0im)
-    psicsrC = evolve_lanczos(csrC, r, 1.0im)
-    psicsrC32 = evolve_lanczos(csrC32, r, 1.0im)
+    psicsrC = evolve_lanczos(csrC, rC, 1.0im)
+    psicsrC32 = evolve_lanczos(csrC32, rC, 1.0im)
     @test isapprox(psi.state, psicsr.state)
     @test isapprox(psi.state, psicsr32.state)
     @test isapprox(psicsrC.state, psicsrC32.state)
@@ -66,10 +75,10 @@
     psicsr32 = random_state(block; seed=42)
     evolve_lanczos_inplace(csr32, psicsr32, 1.0im)
 
-    psicsrC = random_state(block; seed=42)
+    psicsrC = random_state(blockc; real=false, seed=42)
     evolve_lanczos_inplace(csrC, psicsrC, 1.0im)
     
-    psicsrC32 = random_state(block; seed=42)
+    psicsrC32 = random_state(blockc; real=false, seed=42)
     evolve_lanczos_inplace(csrC32, psicsrC32, 1.0im)
 
     @test isapprox(psi, psicsr)

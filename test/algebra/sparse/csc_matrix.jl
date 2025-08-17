@@ -20,14 +20,16 @@
         @test sr32.ishermitian
     end
     
+    ops = OpSum()
+    for i in 1:N
+        ops += 1.0im*Op("SdotS", [i, mod1(i+1, N)])
+    end
     mc = matrix(ops, block)
     for i0 in [0, 1]
-        sc64 = csc_matrixC(ops, block, i0)
-        sc32 = csc_matrixC_32(ops, block, i0)
+        sc64 = csc_matrix(ops, block, i0)
+        sc32 = csc_matrix_32(ops, block, i0)
         @test isapprox(mc, to_dense(sc64))
         @test isapprox(mc, to_dense(sc32))
-        @test sc64.ishermitian
-        @test sc32.ishermitian
     end
     
 end
