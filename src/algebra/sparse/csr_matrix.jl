@@ -83,7 +83,6 @@ end
 function csr_matrix_32(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=1)
     # Real version
     if isreal(ops) && isreal(block_in) && isreal(block_out)
-
         nrows = size(block_out)
         ncols = size(block_in)
         if ((nrows == 0) || (ncols == 0))
