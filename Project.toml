@@ -17,7 +17,7 @@ XDiag_jll = "05e47fe5-458f-5313-a276-ec18ac0ef94c"
 CxxWrap = "0.17"
 Printf = "1.0.0"
 XDiag_jll = "=0.4.0"
-julia = "1.7"
+julia = "1.10"
 LinearAlgebra = "1" 
 
 [extras]
