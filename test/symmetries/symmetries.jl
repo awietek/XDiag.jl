@@ -30,6 +30,7 @@ end
     # representation
     # periodic N-site Heisenberg antiferromagnet
     for N in  2:2:8
+
         H = OpSum()
         for i in 1:N
             H += "J" * Op("SdotS", [i, mod1(i+1, N)])
@@ -49,13 +50,13 @@ end
         # define irreps from character tables, labelled by momentum (2pi/N ×) k
         character_table = [ [C_N_character(N, k, p) for p in 0:(N-1)] for k in 0:(N-1)]
         irreps = [ Representation(C_N, character_table[k]) for k in 1:N ]   
-
         # check all translation symmetry blocks
         e0 = Inf
         psi0 = nothing
         for k in eachindex(irreps)
-            block = Spinhalf(N, irreps[k]) 
+            block = Spinhalf(N, irreps[k])
             e0k, psik = eig0(H, block)
+
             if  e0k < e0
                 e0 = e0k
                 psi0 = psik

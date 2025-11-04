@@ -14,6 +14,14 @@ function LinearAlgebra.dot(v::State, w::State)
     end
 end
 
+function matrix_dot(v::State, w::State)
+    if isreal(v) && isreal(w)
+        return to_julia(cxx_matrix_dot(v.cxx_state, w.cxx_state))
+    else
+        return to_julia(cxx_matrix_dotC(v.cxx_state, w.cxx_state))
+    end
+end
+
 function inner(ops::OpSum, v::State)
     if isreal(ops) && isreal(v)
         return cxx_inner(ops.cxx_opsum, v.cxx_state)

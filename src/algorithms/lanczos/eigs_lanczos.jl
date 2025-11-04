@@ -32,3 +32,16 @@ eigs_lanczos(ops::OpSum, state0::State; neigvals::Int64 = 1,
    cxx_eigs_lanczos(ops.cxx_opsum, state0.cxx_state, neigvals, precision,
                     max_iterations, deflation_tol)
     
+eigs_lanczos(ops::CSRMatrix, block::Block; neigvals::Int64 = 1,
+             precision::Float64 = 1e-12, max_iterations::Int64 = 1000,
+             deflation_tol::Float64 = 1e-7,
+             random_seed::Int64 = 42)::EigsLanczosResult =
+   cxx_eigs_lanczos(to_cxx_csr_matrix(ops), block.cxx_block, neigvals, precision,
+                    max_iterations, deflation_tol, random_seed)
+    
+eigs_lanczos(ops::CSRMatrix, state0::State; neigvals::Int64 = 1,
+             precision::Float64 = 1e-12, max_iterations::Int64 = 1000,
+             deflation_tol::Float64 = 1e-7)::EigsLanczosResult =
+   cxx_eigs_lanczos(to_cxx_csr_matrix(ops), state0.cxx_state, neigvals, precision,
+                    max_iterations, deflation_tol)
+    

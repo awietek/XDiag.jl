@@ -10,9 +10,10 @@ product_state(block::Block, local_states::Vector{String};
 
 random_state(block::Block;
              real::Bool=true,
+             ncols::Int64=1,
              seed::Int64=42,
              normalized::Bool=true)::State =
-                 cxx_random_state(block.cxx_block, real, seed, normalized)
+                 cxx_random_state(block.cxx_block, real, ncols, seed, normalized)
 
 zero_state(block::Block; real::Bool=true, ncols::Int64=1)::State =
     cxx_zero_state(block.cxx_block, real, ncols)

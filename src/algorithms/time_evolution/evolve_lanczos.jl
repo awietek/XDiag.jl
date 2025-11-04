@@ -28,6 +28,17 @@ evolve_lanczos(H::OpSum, psi::State, t::Float64;
                                       precision, shift, normalize,
                                       max_iterations, deflation_tol)
 
+evolve_lanczos(H::CSRMatrix, psi::State, t::Float64;
+               precision::Float64 = 1e-12,
+               shift::Float64=0.0,
+               normalize::Bool=false,
+               max_iterations::Int64 = 1000,
+               deflation_tol::Float64 = 1e-7)::EvolveLanczosResult =
+                   cxx_evolve_lanczos(to_cxx_csr_matrix(H), psi.cxx_state, t,
+                                      precision, shift, normalize,
+                                      max_iterations, deflation_tol)
+
+
 evolve_lanczos(H::OpSum, psi::State, z::ComplexF64;
                precision::Float64 = 1e-12,
                shift::Float64=0.0,
@@ -38,6 +49,15 @@ evolve_lanczos(H::OpSum, psi::State, z::ComplexF64;
                                       precision, shift, normalize,
                                       max_iterations, deflation_tol)
 
+evolve_lanczos(H::CSRMatrix, psi::State, z::ComplexF64;
+               precision::Float64 = 1e-12,
+               shift::Float64=0.0,
+               normalize::Bool=false,
+               max_iterations::Int64 = 1000,
+               deflation_tol::Float64 = 1e-7)::EvolveLanczosResult =
+                   cxx_evolve_lanczos(to_cxx_csr_matrix(H), psi.cxx_state, z,
+                                      precision, shift, normalize,
+                                      max_iterations, deflation_tol)
 
 struct EvolveLanczosInplaceResult
     alphas::Vector{Float64}
@@ -66,6 +86,19 @@ evolve_lanczos_inplace(H::OpSum, psi::State, t::Float64;
                                                       max_iterations,
                                                       deflation_tol)
 
+evolve_lanczos_inplace(H::CSRMatrix, psi::State, t::Float64;
+                       precision::Float64 = 1e-12,
+                       shift::Float64=0.0,
+                       normalize::Bool=false,
+                       max_iterations::Int64 = 1000,
+                       deflation_tol::Float64 = 1e-7)::EvolveLanczosInplaceResult =
+                           cxx_evolve_lanczos_inplace(to_cxx_csr_matrix(H),
+                                                      psi.cxx_state,
+                                                      t, precision,
+                                                      shift, normalize,
+                                                      max_iterations,
+                                                      deflation_tol)
+
 evolve_lanczos_inplace(H::OpSum, psi::State, z::ComplexF64;
                        precision::Float64 = 1e-12,
                        shift::Float64=0.0, normalize::Bool=false,
@@ -78,3 +111,15 @@ evolve_lanczos_inplace(H::OpSum, psi::State, z::ComplexF64;
                                                       max_iterations,
                                                       deflation_tol)
 
+
+evolve_lanczos_inplace(H::CSRMatrix, psi::State, z::ComplexF64;
+                       precision::Float64 = 1e-12,
+                       shift::Float64=0.0, normalize::Bool=false,
+                       max_iterations::Int64 = 1000,
+                       deflation_tol::Float64 = 1e-7)::EvolveLanczosInplaceResult =
+                           cxx_evolve_lanczos_inplace(to_cxx_csr_matrix(H),
+                                                      psi.cxx_state,
+                                                      z, precision,
+                                                      shift, normalize,
+                                                      max_iterations,
+                                                      deflation_tol)

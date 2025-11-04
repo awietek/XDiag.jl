@@ -18,6 +18,15 @@ time_evolve_expokit(ops::OpSum, state::State, time::Float64;
     cxx_time_evolve_expokit(ops.cxx_opsum, state.cxx_state, time, precision,
                             m, anorm, nnorm)
 
+time_evolve_expokit(ops::CSRMatrix, state::State, time::Float64;
+                    precision::Float64=1e-12,
+                    m::Int64 = 30, 
+                    anorm::Float64 = 0.0,
+                    nnorm::Int64 = 2)::TimeEvolveExpokitResult = 
+    cxx_time_evolve_expokit(to_cxx_csr_matrix(ops), state.cxx_state, time, precision,
+                            m, anorm, nnorm)
+
+
 struct TimeEvolveExpokitInplaceResult
     error::Float64
     hump::Float64
@@ -32,6 +41,19 @@ time_evolve_expokit_inplace(ops::OpSum, state::State, time::Float64;
                             anorm::Float64 = 0.0,
                             nnorm::Int64 = 2)::TimeEvolveExpokitInplaceResult =
                                 cxx_time_evolve_expokit_inplace(ops.cxx_opsum,
+                                                                state.cxx_state,
+                                                                time,
+                                                                precision,
+                                                                m,
+                                                                anorm,
+                                                                nnorm)
+
+time_evolve_expokit_inplace(ops::CSRMatrix, state::State, time::Float64;
+                            precision::Float64=1e-12,
+                            m::Int64 = 30, 
+                            anorm::Float64 = 0.0,
+                            nnorm::Int64 = 2)::TimeEvolveExpokitInplaceResult =
+                                cxx_time_evolve_expokit_inplace(to_cxx_csr_matrix(ops),
                                                                 state.cxx_state,
                                                                 time,
                                                                 precision,
