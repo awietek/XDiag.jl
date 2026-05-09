@@ -37,12 +37,12 @@ function coo_matrix(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=1)
         data = Vector{Float64}(undef, nnz)
 
         # compute the matrix
-        cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
-                            nnz_thread, nnz,
-                            Base.unsafe_convert(Ptr{Int64}, row),
-                            Base.unsafe_convert(Ptr{Int64}, col),
-                            Base.unsafe_convert(Ptr{Float64}, data),
-                            i0)
+        GC.@preserve nnz_thread row col data begin
+            cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
+                                nnz_thread, nnz,
+                                pointer(row), pointer(col), pointer(data),
+                                i0)
+        end
         nrows = Int64(size(block_out))
         ncols = Int64(size(block_in))    
         isherm = cxx_ishermitian(ops.cxx_opsum)
@@ -68,12 +68,12 @@ function coo_matrix(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=1)
         data = Vector{ComplexF64}(undef, nnz)
 
         # compute the matrix
-        cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
-                            nnz_thread, nnz,
-                            Base.unsafe_convert(Ptr{Int64}, row),
-                            Base.unsafe_convert(Ptr{Int64}, col),
-                            Base.unsafe_convert(Ptr{ComplexF64}, data),
-                            i0)
+        GC.@preserve nnz_thread row col data begin
+            cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
+                                nnz_thread, nnz,
+                                pointer(row), pointer(col), pointer(data),
+                                i0)
+        end
         nrows = Int64(size(block_out))
         ncols = Int64(size(block_in))    
         isherm = cxx_ishermitian(ops.cxx_opsum)
@@ -105,12 +105,12 @@ function coo_matrix_32(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=
         data = Vector{Float64}(undef, nnz)
 
         # compute the matrix
-        cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
-                            nnz_thread, nnz,
-                            Base.unsafe_convert(Ptr{Int32}, row),
-                            Base.unsafe_convert(Ptr{Int32}, col),
-                            Base.unsafe_convert(Ptr{Float64}, data),
-                            Int32(i0))
+        GC.@preserve nnz_thread row col data begin
+            cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
+                                nnz_thread, nnz,
+                                pointer(row), pointer(col), pointer(data),
+                                Int32(i0))
+        end
         nrows = Int32(size(block_out))
         ncols = Int32(size(block_in))    
         isherm = cxx_ishermitian(ops.cxx_opsum)
@@ -136,12 +136,12 @@ function coo_matrix_32(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=
         data = Vector{ComplexF64}(undef, nnz)
 
         # compute the matrix
-        cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
-                            nnz_thread, nnz,
-                            Base.unsafe_convert(Ptr{Int32}, row),
-                            Base.unsafe_convert(Ptr{Int32}, col),
-                            Base.unsafe_convert(Ptr{ComplexF64}, data),
-                            Int32(i0))
+        GC.@preserve nnz_thread row col data begin
+            cxx_coo_matrix_fill(ops.cxx_opsum, block_in.cxx_block, block_out.cxx_block,
+                                nnz_thread, nnz,
+                                pointer(row), pointer(col), pointer(data),
+                                Int32(i0))
+        end
         nrows = Int32(size(block_out))
         ncols = Int32(size(block_in))    
         isherm = cxx_ishermitian(ops.cxx_opsum)
@@ -151,49 +151,61 @@ function coo_matrix_32(ops::OpSum, block_in::Block, block_out::Block, i0::Int64=
 end
 
 function to_dense(mat::COOMatrix{Int64, Float64})
-    cxx_spmat = cxx_create_coo_matrix(mat.nrows,
-                                      mat.ncols,
-                                      Int64(size(mat.data, 1)),
-                                      Base.unsafe_convert(Ptr{Int64}, mat.row),
-                                      Base.unsafe_convert(Ptr{Int64}, mat.col),
-                                      Base.unsafe_convert(Ptr{Float64}, mat.data),
-                                      Int64(mat.i0),
-                                      mat.ishermitian)
-    return to_julia(cxx_to_dense(cxx_spmat))
+    row = mat.row
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat row col data begin
+        cxx_spmat = cxx_create_coo_matrix(mat.nrows,
+                                          mat.ncols,
+                                          Int64(size(data, 1)),
+                                          pointer(row), pointer(col), pointer(data),
+                                          Int64(mat.i0),
+                                          mat.ishermitian)
+        return to_julia(cxx_to_dense(cxx_spmat))
+    end
 end
 
 function to_dense(mat::COOMatrix{Int64, ComplexF64})
-    cxx_spmat = cxx_create_coo_matrix(mat.nrows,
-                                      mat.ncols,
-                                      Int64(size(mat.data, 1)),
-                                      Base.unsafe_convert(Ptr{Int64}, mat.row),
-                                      Base.unsafe_convert(Ptr{Int64}, mat.col),
-                                      Base.unsafe_convert(Ptr{ComplexF64}, mat.data),
-                                      Int64(mat.i0),
-                                      mat.ishermitian)
-    return to_julia(cxx_to_dense(cxx_spmat))
+    row = mat.row
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat row col data begin
+        cxx_spmat = cxx_create_coo_matrix(mat.nrows,
+                                          mat.ncols,
+                                          Int64(size(data, 1)),
+                                          pointer(row), pointer(col), pointer(data),
+                                          Int64(mat.i0),
+                                          mat.ishermitian)
+        return to_julia(cxx_to_dense(cxx_spmat))
+    end
 end
 
 function to_dense(mat::COOMatrix{Int32, Float64})
-    cxx_spmat = cxx_create_coo_matrix(mat.nrows,
-                                      mat.ncols,
-                                      Int64(size(mat.data, 1)),
-                                      Base.unsafe_convert(Ptr{Int32}, mat.row),
-                                      Base.unsafe_convert(Ptr{Int32}, mat.col),
-                                      Base.unsafe_convert(Ptr{Float64}, mat.data),
-                                      Int32(mat.i0),
-                                      mat.ishermitian)
-    return to_julia(cxx_to_dense(cxx_spmat))
+    row = mat.row
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat row col data begin
+        cxx_spmat = cxx_create_coo_matrix(mat.nrows,
+                                          mat.ncols,
+                                          Int64(size(data, 1)),
+                                          pointer(row), pointer(col), pointer(data),
+                                          Int32(mat.i0),
+                                          mat.ishermitian)
+        return to_julia(cxx_to_dense(cxx_spmat))
+    end
 end
 
 function to_dense(mat::COOMatrix{Int32, ComplexF64})
-    cxx_spmat = cxx_create_coo_matrix(mat.nrows,
-                                      mat.ncols,
-                                      Int64(size(mat.data, 1)),
-                                      Base.unsafe_convert(Ptr{Int32}, mat.row),
-                                      Base.unsafe_convert(Ptr{Int32}, mat.col),
-                                      Base.unsafe_convert(Ptr{ComplexF64}, mat.data),
-                                      Int32(mat.i0),
-                                      mat.ishermitian)
-    return to_julia(cxx_to_dense(cxx_spmat))
+    row = mat.row
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat row col data begin
+        cxx_spmat = cxx_create_coo_matrix(mat.nrows,
+                                          mat.ncols,
+                                          Int64(size(data, 1)),
+                                          pointer(row), pointer(col), pointer(data),
+                                          Int32(mat.i0),
+                                          mat.ishermitian)
+        return to_julia(cxx_to_dense(cxx_spmat))
+    end
 end
