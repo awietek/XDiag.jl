@@ -40,7 +40,7 @@ eigs_lanczos(ops::CSRMatrix, block::Block; neigvals::Int64 = 1,
        cxx_eigs_lanczos(cxx_ops, block.cxx_block, neigvals, precision,
                         max_iterations, deflation_tol, random_seed)
    end
-     
+
 eigs_lanczos(ops::CSRMatrix, state0::State; neigvals::Int64 = 1,
              precision::Float64 = 1e-12, max_iterations::Int64 = 1000,
              deflation_tol::Float64 = 1e-7)::EigsLanczosResult =
