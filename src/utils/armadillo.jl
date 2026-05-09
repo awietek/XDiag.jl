@@ -2,77 +2,70 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-function to_armadillo(mat::Matrix{Float64}; copy=true)
+const _ArmadilloArray = Union{Matrix{Float64},Matrix{ComplexF64},Vector{Float64},Vector{ComplexF64}}
+
+function _armadillo_wrapper(mat::Matrix{Float64}, copy::Bool)
     m, n = size(mat)
-    memptr = Base.unsafe_convert(Ptr{Float64}, mat)
-    return cxx_arma_mat(memptr, m, n, copy, true)
+    return cxx_arma_mat(pointer(mat), m, n, copy, true)
 end
 
-
-function to_armadillo(mat::Matrix{ComplexF64}; copy=true)
+function _armadillo_wrapper(mat::Matrix{ComplexF64}, copy::Bool)
     m, n = size(mat)
-    memptr = Base.unsafe_convert(Ptr{ComplexF64}, mat)
-    return cxx_arma_cx_mat(memptr, m, n, copy, true)
+    return cxx_arma_cx_mat(pointer(mat), m, n, copy, true)
 end
 
-function to_armadillo(vec::Vector{Float64}; copy=true)
-    m = size(vec)[1]
-    memptr = Base.unsafe_convert(Ptr{Float64}, vec)
-    return cxx_arma_vec(memptr, m, copy, true)
+function _armadillo_wrapper(vec::Vector{Float64}, copy::Bool)
+    return cxx_arma_vec(pointer(vec), length(vec), copy, true)
 end
 
-
-function to_armadillo(vec::Vector{ComplexF64}; copy=true)
-    m = size(vec)[1]
-    memptr = Base.unsafe_convert(Ptr{ComplexF64}, vec)
-    return cxx_arma_cx_vec(memptr, m, copy, true)
+function _armadillo_wrapper(vec::Vector{ComplexF64}, copy::Bool)
+    return cxx_arma_cx_vec(pointer(vec), length(vec), copy, true)
 end
 
+function to_armadillo(array::_ArmadilloArray; copy=true)
+    GC.@preserve array begin
+        return _armadillo_wrapper(array, copy)
+    end
+end
+
+function with_armadillo(f::F, array::_ArmadilloArray; copy=true) where F
+    GC.@preserve array begin
+        return f(_armadillo_wrapper(array, copy))
+    end
+end
+
+function _unsafe_copy_to_julia!(dest::Vector{T}, src, n::Integer) where T
+    GC.@preserve dest src begin
+        Base.unsafe_copyto!(pointer(dest), memptr(src).cpp_object, n)
+    end
+    return dest
+end
+
+function _unsafe_copy_to_julia!(dest::Matrix{T}, src, n::Integer) where T
+    GC.@preserve dest src begin
+        Base.unsafe_copyto!(pointer(dest), memptr(src).cpp_object, n)
+    end
+    return dest
+end
 
 function to_julia(vec::cxx_arma_vec)
     m = n_rows(vec)
-    julia_vec = Vector{Float64}(undef, m)
-
-    # Low level C call to copy
-    vec_ptr = memptr(vec).cpp_object
-    julia_vec_ptr = Base.unsafe_convert(Ptr{Float64}, julia_vec)
-    Base.unsafe_copyto!(julia_vec_ptr, vec_ptr, m)
-    return julia_vec
+    return _unsafe_copy_to_julia!(Vector{Float64}(undef, m), vec, m)
 end
 
 function to_julia(vec::cxx_arma_cx_vec)
     m = n_rows(vec)
-    julia_vec = Vector{ComplexF64}(undef, m)
-
-    # Low level C call to copy
-    vec_ptr = memptr(vec).cpp_object
-    julia_vec_ptr = Base.unsafe_convert(Ptr{ComplexF64}, julia_vec)
-    Base.unsafe_copyto!(julia_vec_ptr, vec_ptr, m)
-    return julia_vec
+    return _unsafe_copy_to_julia!(Vector{ComplexF64}(undef, m), vec, m)
 end
 
 function to_julia(mat::cxx_arma_mat)
     m = n_rows(mat)
     n = n_cols(mat)
-    N = n_elem(mat)
-    julia_mat = Matrix{Float64}(undef, m, n)
-
-    # Low level C call to copy
-    mat_ptr = memptr(mat).cpp_object
-    julia_mat_ptr = Base.unsafe_convert(Ptr{Float64}, julia_mat)
-    Base.unsafe_copyto!(julia_mat_ptr, mat_ptr, N)
-    return julia_mat
+    return _unsafe_copy_to_julia!(Matrix{Float64}(undef, m, n), mat, n_elem(mat))
 end
 
 function to_julia(mat::cxx_arma_cx_mat)
     m = n_rows(mat)
     n = n_cols(mat)
-    N = n_elem(mat)
-    julia_mat = Matrix{ComplexF64}(undef, m, n)
-
-    # Low level C call to copy
-    mat_ptr = memptr(mat).cpp_object
-    julia_mat_ptr = Base.unsafe_convert(Ptr{ComplexF64}, julia_mat)
-    Base.unsafe_copyto!(julia_mat_ptr, mat_ptr, N)
-    return julia_mat
+    return _unsafe_copy_to_julia!(Matrix{ComplexF64}(undef, m, n), mat, n_elem(mat))
 end
