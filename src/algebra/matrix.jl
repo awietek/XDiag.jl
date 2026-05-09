@@ -8,8 +8,10 @@ function matrix(ops::OpSum, block_in::Block, block_out::Block)
         mat = Matrix{Float64}(undef, size(block_in), size(block_out))
 
         # Let the C++ routine write to this matrix
-        cxx_matrix(Base.unsafe_convert(Ptr{Float64}, mat), ops.cxx_opsum,
-                   block_in.cxx_block, block_out.cxx_block)
+        GC.@preserve mat begin
+            cxx_matrix(pointer(mat), ops.cxx_opsum,
+                       block_in.cxx_block, block_out.cxx_block)
+        end
        
         return mat
     else
@@ -17,8 +19,10 @@ function matrix(ops::OpSum, block_in::Block, block_out::Block)
         mat = Matrix{ComplexF64}(undef, size(block_in), size(block_out))
 
         # Let the C++ routine write to this matrix
-        cxx_matrixC(Base.unsafe_convert(Ptr{ComplexF64}, mat), ops.cxx_opsum,
-                block_in.cxx_block, block_out.cxx_block)
+        GC.@preserve mat begin
+            cxx_matrixC(pointer(mat), ops.cxx_opsum,
+                        block_in.cxx_block, block_out.cxx_block)
+        end
         return mat
     end
 end
