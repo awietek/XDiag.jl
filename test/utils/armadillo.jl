@@ -54,3 +54,43 @@
         @test scoped_dense ≈ dense
     end
 end
+
+@testset "rectangular block in/out bridge order" begin
+    N = 4
+    block_in = Spinhalf(N, 1)
+    block_out = Spinhalf(N, 2)
+    ops = OpSum(Op("S+", 1))
+
+    @test size(block_in) == 4
+    @test size(block_out) == 6
+
+    dense = matrix(ops, block_in, block_out)
+    @test size(dense) == (size(block_in), size(block_out))
+
+    vin = collect(1.0:size(block_in))
+    expected_w = [2.0, 3.0, 0.0, 4.0, 0.0, 0.0]
+
+    w = zeros(Float64, size(block_out))
+    apply(ops, block_in, vin, block_out, w)
+    @test w == expected_w
+
+    expected_sparse_dense = [
+        0.0 1.0 0.0 0.0
+        0.0 0.0 1.0 0.0
+        0.0 0.0 0.0 0.0
+        0.0 0.0 0.0 1.0
+        0.0 0.0 0.0 0.0
+        0.0 0.0 0.0 0.0
+    ]
+
+    for constructor in (coo_matrix, coo_matrix_32,
+                        csr_matrix, csr_matrix_32,
+                        csc_matrix, csc_matrix_32)
+        sparse = constructor(ops, block_in, block_out)
+        @test (Int(sparse.nrows), Int(sparse.ncols)) == (size(block_out), size(block_in))
+        @test to_dense(sparse) == expected_sparse_dense
+    end
+
+    csr = csr_matrix(ops, block_in, block_out)
+    @test apply(csr, vin) == expected_w
+end
