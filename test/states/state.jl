@@ -12,6 +12,7 @@
     @test !isreal(psi1)
     @test [1.0 + 0.0im, 2.0 + 0.0im, 3.0 + 0.0im, 4.0 + 0.0im] == vector(psi1)
     @test size(psi1) == 4
+    @test length(psi1) == 4
     @test dim(psi1) == 4
     
     psi2 = State(block, real=false, n_cols=3)
@@ -25,6 +26,8 @@
     @test !isreal(psi3)
     @test vector(real(psi3)) == real(v)
     @test vector(imag(psi3)) == imag(v)
+
+    psi4 = RandomState()
 
     # s = State(block; real=true, n_cols=0)
     
