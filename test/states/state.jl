@@ -6,15 +6,20 @@
     block = Spinhalf(2)
     v = [1.0, 2.0, 3.0, 4.0]
     psi1 = State(block, v)
+    @test size(psi1) == 4
+    @test length(psi1) == 4
     @test v == vector(psi1)
     @test isreal(psi1)
     make_complex!(psi1)
     @test !isreal(psi1)
     @test [1.0 + 0.0im, 2.0 + 0.0im, 3.0 + 0.0im, 4.0 + 0.0im] == vector(psi1)
     @test size(psi1) == 4
+    @test length(psi1) == 4
     @test dim(psi1) == 4
     
     psi2 = State(block, real=false, n_cols=3)
+    @test length(psi2) == 12
+    @test size(psi2) == 12
     @test all(isapprox.(matrix(psi2), 0.0))
     @test nrows(psi2) == 4
     @test ncols(psi2) == 3
@@ -22,9 +27,12 @@
 
     v = [1.0+4.0im, 2.0+3.0im, 3.0+2.0im, 4.0+1.0im]
     psi3 = State(block, v)
+    @test size(psi3) == 4
+    @test length(psi3) == 4
     @test !isreal(psi3)
     @test vector(real(psi3)) == real(v)
     @test vector(imag(psi3)) == imag(v)
+
 
     # s = State(block; real=true, n_cols=0)
     

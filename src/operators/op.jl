@@ -27,6 +27,7 @@ Op(type::String, sites::Vector{Int64}, mat::Matrix{ComplexF64}) =
 # Methods
 type(op::Op)::String = strip(type(op.cxx_op))
 Base.size(op::Op)::Int64 = size(op.cxx_op)
+Base.length(op::Op)::Int64 = Base.size(op)
 Base.getindex(op::Op, idx::Int64)::Int64 = getindex(op.cxx_op, idx) + 1
 sites(op::Op)::Vector{Int64} = Vector{Int64}(sites(op.cxx_op)) .+ 1
 

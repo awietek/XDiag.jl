@@ -11,7 +11,7 @@ using LinearAlgebra
 
 import Base: +, -, *, /, ==, !=
 import Base: getindex, setindex!
-import Base: size, isreal, convert, show, real, imag, push!, iterate, fill
+import Base: size, isreal, convert, show, real, imag, push!, iterate, fill, length
 import Base: rand, zeros, zero, isapprox, inv
 
 import LinearAlgebra: dot, norm

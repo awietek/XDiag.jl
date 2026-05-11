@@ -15,6 +15,7 @@ ProductState(local_states::Vector{String}) =
 # Methods
 nsites(state::ProductState)::Int64 = nsites(state.cxx_product_state)
 Base.size(state::ProductState)::Int64 = size(state.cxx_product_state)
+Base.length(state::ProductState)::Int64 = Base.size(state)
 Base.getindex(state::ProductState, idx::Int64) =
     getindex(state.cxx_product_state, idx)
 Base.setindex!(state::ProductState, local_state::String, idx::Int64) =

@@ -25,6 +25,7 @@ index(block::Electron, pstate::ProductState)::Int64 =
 Base.isreal(block::Electron)::Bool = isreal(block.cxx_block)
 dim(block::Electron)::Int64 = dim(block.cxx_block)
 Base.size(block::Electron)::Int64 = size(block.cxx_block)
+Base.length(block::Electron)::Int64 = Base.size(block)
 
 # Iterators
 function Base.iterate(block::Electron)

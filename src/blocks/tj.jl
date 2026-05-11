@@ -21,6 +21,7 @@ index(block::tJ, pstate::ProductState)::Int64 =
 Base.isreal(block::tJ)::Bool = isreal(block.cxx_block)
 dim(block::tJ)::Int64 = dim(block.cxx_block)
 Base.size(block::tJ)::Int64 = size(block.cxx_block)
+Base.length(block::tJ)::Int64 = Base.size(block)
 
 # Iterators
 function Base.iterate(block::tJ)

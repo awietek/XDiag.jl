@@ -25,6 +25,7 @@ index(block::Spinhalf, pstate::ProductState)::Int64 =
 Base.isreal(block::Spinhalf)::Bool = isreal(block.cxx_block)
 dim(block::Spinhalf)::Int64 = dim(block.cxx_block)
 Base.size(block::Spinhalf)::Int64 = size(block.cxx_block)
+Base.length(block::Spinhalf)::Int64 = Base.size(block)
 
 # Iterators
 function Base.iterate(block::Spinhalf)
