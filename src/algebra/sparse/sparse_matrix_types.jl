@@ -32,46 +32,44 @@ struct CSCMatrix{IdxT<:Integer,CoeffT<:Number}
     ishermitian::Bool
 end
 
-function to_cxx_csr_matrix(mat::CSRMatrix{Int64, Float64})
-    return cxx_create_csr_matrix(mat.nrows,
-                                 mat.ncols,
-                                 Int64(size(mat.data, 1)),
-                                 Base.unsafe_convert(Ptr{Int64}, mat.rowptr),
-                                 Base.unsafe_convert(Ptr{Int64}, mat.col),
-                                 Base.unsafe_convert(Ptr{Float64}, mat.data),
-                                 Int64(mat.i0),
-                                 mat.ishermitian)
+function _cxx_csr_matrix_wrapper(mat::CSRMatrix{Int64,Float64})
+    return cxx_create_csr_matrix(mat.nrows, mat.ncols, Int64(size(mat.data, 1)),
+                                 pointer(mat.rowptr), pointer(mat.col), pointer(mat.data),
+                                 Int64(mat.i0), mat.ishermitian)
 end
 
-function to_cxx_csr_matrix(mat::CSRMatrix{Int64, ComplexF64})
-    return cxx_create_csr_matrix(mat.nrows,
-                                 mat.ncols,
-                                 Int64(size(mat.data, 1)),
-                                 Base.unsafe_convert(Ptr{Int64}, mat.rowptr),
-                                 Base.unsafe_convert(Ptr{Int64}, mat.col),
-                                 Base.unsafe_convert(Ptr{ComplexF64}, mat.data),
-                                 Int64(mat.i0),
-                                 mat.ishermitian)
+function _cxx_csr_matrix_wrapper(mat::CSRMatrix{Int64,ComplexF64})
+    return cxx_create_csr_matrix(mat.nrows, mat.ncols, Int64(size(mat.data, 1)),
+                                 pointer(mat.rowptr), pointer(mat.col), pointer(mat.data),
+                                 Int64(mat.i0), mat.ishermitian)
 end
 
-function to_cxx_csr_matrix(mat::CSRMatrix{Int32, Float64})
-    return cxx_create_csr_matrix(mat.nrows,
-                                 mat.ncols,
-                                 Int64(size(mat.data, 1)),
-                                 Base.unsafe_convert(Ptr{Int32}, mat.rowptr),
-                                 Base.unsafe_convert(Ptr{Int32}, mat.col),
-                                 Base.unsafe_convert(Ptr{Float64}, mat.data),
-                                 Int32(mat.i0),
-                                 mat.ishermitian)
+function _cxx_csr_matrix_wrapper(mat::CSRMatrix{Int32,Float64})
+    return cxx_create_csr_matrix(mat.nrows, mat.ncols, Int64(size(mat.data, 1)),
+                                 pointer(mat.rowptr), pointer(mat.col), pointer(mat.data),
+                                 Int32(mat.i0), mat.ishermitian)
 end
 
-function to_cxx_csr_matrix(mat::CSRMatrix{Int32, ComplexF64})
-    return cxx_create_csr_matrix(mat.nrows,
-                                 mat.ncols,
-                                 Int64(size(mat.data, 1)),
-                                 Base.unsafe_convert(Ptr{Int32}, mat.rowptr),
-                                 Base.unsafe_convert(Ptr{Int32}, mat.col),
-                                 Base.unsafe_convert(Ptr{ComplexF64}, mat.data),
-                                 Int32(mat.i0),
-                                 mat.ishermitian)
+function _cxx_csr_matrix_wrapper(mat::CSRMatrix{Int32,ComplexF64})
+    return cxx_create_csr_matrix(mat.nrows, mat.ncols, Int64(size(mat.data, 1)),
+                                 pointer(mat.rowptr), pointer(mat.col), pointer(mat.data),
+                                 Int32(mat.i0), mat.ishermitian)
+end
+
+function to_cxx_csr_matrix(mat::CSRMatrix)
+    rowptr = mat.rowptr
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat rowptr col data begin
+        return _cxx_csr_matrix_wrapper(mat)
+    end
+end
+
+function with_cxx_csr_matrix(f::F, mat::CSRMatrix) where F
+    rowptr = mat.rowptr
+    col = mat.col
+    data = mat.data
+    GC.@preserve mat rowptr col data begin
+        return f(_cxx_csr_matrix_wrapper(mat))
+    end
 end

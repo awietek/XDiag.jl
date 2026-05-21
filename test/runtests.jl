@@ -5,6 +5,8 @@
 using XDiag
 using Test
 
+include("utils/armadillo.jl")
+
 include("operators/op.jl")
 include("operators/opsum.jl")
 

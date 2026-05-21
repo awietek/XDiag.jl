@@ -9,8 +9,10 @@ time_evolve(ops::OpSum, psi0::State, time::Float64;
 
 time_evolve(ops::CSRMatrix, psi0::State, time::Float64; 
             precision::Float64 = 1e-12, algorithm::String = "lanczos")::State =
-                cxx_time_evolve(to_cxx_csr_matrix(ops), psi0.cxx_state, time,
-                                precision, algorithm)
+                with_cxx_csr_matrix(ops) do cxx_ops
+                    cxx_time_evolve(cxx_ops, psi0.cxx_state, time,
+                                    precision, algorithm)
+                end
 
 time_evolve_inplace(ops::OpSum, psi0::State, time::Float64; 
                     precision::Float64 = 1e-12, algorithm::String = "lanczos") = 
@@ -19,6 +21,7 @@ time_evolve_inplace(ops::OpSum, psi0::State, time::Float64;
 
 time_evolve_inplace(ops::CSRMatrix, psi0::State, time::Float64; 
                     precision::Float64 = 1e-12, algorithm::String = "lanczos") = 
-                        cxx_time_evolve_inplace(to_cxx_csr_matrix(ops), psi0.cxx_state,
-                                                time, precision, algorithm)
-
+                        with_cxx_csr_matrix(ops) do cxx_ops
+                            cxx_time_evolve_inplace(cxx_ops, psi0.cxx_state,
+                                                    time, precision, algorithm)
+                        end

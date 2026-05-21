@@ -51,26 +51,31 @@ eigvals_lanczos(ops::CSRMatrix, block::Block; neigvals::Int64 = 1,
                 max_iterations::Int64 = 1000,
                 deflation_tol::Float64 = 1e-7,
                 random_seed::Int64 = 42)::EigvalsLanczosResult = 
-    cxx_eigvals_lanczos(to_cxx_csr_matrix(ops), block.cxx_block, neigvals, precision,
-                               max_iterations, deflation_tol, random_seed)
+    with_cxx_csr_matrix(ops) do cxx_ops
+        cxx_eigvals_lanczos(cxx_ops, block.cxx_block, neigvals, precision,
+                            max_iterations, deflation_tol, random_seed)
+    end
 
 
 eigvals_lanczos(ops::CSRMatrix, psi0::State; neigvals::Int64 = 1, 
 		precision::Float64 = 1e-12,
                 max_iterations::Int64 = 1000,
                 deflation_tol::Float64 = 1e-7)::EigvalsLanczosResult =
-    cxx_eigvals_lanczos(to_cxx_csr_matrix(ops), psi0.cxx_state, neigvals, precision,
-                        max_iterations, deflation_tol)
+    with_cxx_csr_matrix(ops) do cxx_ops
+        cxx_eigvals_lanczos(cxx_ops, psi0.cxx_state, neigvals, precision,
+                            max_iterations, deflation_tol)
+    end
 
 
 eigvals_lanczos_inplace(ops::CSRMatrix, psi0::State; neigvals::Int64 = 1, 
 		        precision::Float64 = 1e-12,
                         max_iterations::Int64 = 1000,
                         deflation_tol::Float64 = 1e-7)::EigvalsLanczosResult =
-                            cxx_eigvals_lanczos_inplace(to_cxx_csr_matrix(ops),
-                                                        psi0.cxx_state,
-                                                        neigvals,
-                                                        precision,
-                                                        max_iterations,
-                                                        deflation_tol)
-
+                            with_cxx_csr_matrix(ops) do cxx_ops
+                                cxx_eigvals_lanczos_inplace(cxx_ops,
+                                                            psi0.cxx_state,
+                                                            neigvals,
+                                                            precision,
+                                                            max_iterations,
+                                                            deflation_tol)
+                            end

@@ -13,8 +13,9 @@ PermutationGroup() = Permutation(construct_PermutationGroup())
 function PermutationGroup(matrix::Matrix{Int64})
     matrix0 = matrix .- 1
     m, n = size(matrix0)
-    memptr = Base.unsafe_convert(Ptr{Int64}, matrix0)
-    return PermutationGroup(construct_PermutationGroup(memptr, m, n))
+    GC.@preserve matrix0 begin
+        return PermutationGroup(construct_PermutationGroup(pointer(matrix0), m, n))
+    end
 end
 
 function PermutationGroup(perms::Vector{Permutation})
@@ -38,4 +39,3 @@ nsites(group::PermutationGroup)::Int64 = nsites(group.cxx_group)
 # Output
 to_string(group::PermutationGroup)::String = to_string(group.cxx_group)
 Base.show(io::IO, group::PermutationGroup) = print(io, "\n" * to_string(group.cxx_group))
-

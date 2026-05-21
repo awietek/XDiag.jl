@@ -34,9 +34,11 @@ evolve_lanczos(H::CSRMatrix, psi::State, t::Float64;
                normalize::Bool=false,
                max_iterations::Int64 = 1000,
                deflation_tol::Float64 = 1e-7)::EvolveLanczosResult =
-                   cxx_evolve_lanczos(to_cxx_csr_matrix(H), psi.cxx_state, t,
-                                      precision, shift, normalize,
-                                      max_iterations, deflation_tol)
+                   with_cxx_csr_matrix(H) do cxx_H
+                       cxx_evolve_lanczos(cxx_H, psi.cxx_state, t,
+                                          precision, shift, normalize,
+                                          max_iterations, deflation_tol)
+                   end
 
 
 evolve_lanczos(H::OpSum, psi::State, z::ComplexF64;
@@ -55,9 +57,11 @@ evolve_lanczos(H::CSRMatrix, psi::State, z::ComplexF64;
                normalize::Bool=false,
                max_iterations::Int64 = 1000,
                deflation_tol::Float64 = 1e-7)::EvolveLanczosResult =
-                   cxx_evolve_lanczos(to_cxx_csr_matrix(H), psi.cxx_state, z,
-                                      precision, shift, normalize,
-                                      max_iterations, deflation_tol)
+                   with_cxx_csr_matrix(H) do cxx_H
+                       cxx_evolve_lanczos(cxx_H, psi.cxx_state, z,
+                                          precision, shift, normalize,
+                                          max_iterations, deflation_tol)
+                   end
 
 struct EvolveLanczosInplaceResult
     alphas::Vector{Float64}
@@ -92,12 +96,14 @@ evolve_lanczos_inplace(H::CSRMatrix, psi::State, t::Float64;
                        normalize::Bool=false,
                        max_iterations::Int64 = 1000,
                        deflation_tol::Float64 = 1e-7)::EvolveLanczosInplaceResult =
-                           cxx_evolve_lanczos_inplace(to_cxx_csr_matrix(H),
-                                                      psi.cxx_state,
-                                                      t, precision,
-                                                      shift, normalize,
-                                                      max_iterations,
-                                                      deflation_tol)
+                           with_cxx_csr_matrix(H) do cxx_H
+                               cxx_evolve_lanczos_inplace(cxx_H,
+                                                          psi.cxx_state,
+                                                          t, precision,
+                                                          shift, normalize,
+                                                          max_iterations,
+                                                          deflation_tol)
+                           end
 
 evolve_lanczos_inplace(H::OpSum, psi::State, z::ComplexF64;
                        precision::Float64 = 1e-12,
@@ -117,9 +123,11 @@ evolve_lanczos_inplace(H::CSRMatrix, psi::State, z::ComplexF64;
                        shift::Float64=0.0, normalize::Bool=false,
                        max_iterations::Int64 = 1000,
                        deflation_tol::Float64 = 1e-7)::EvolveLanczosInplaceResult =
-                           cxx_evolve_lanczos_inplace(to_cxx_csr_matrix(H),
-                                                      psi.cxx_state,
-                                                      z, precision,
-                                                      shift, normalize,
-                                                      max_iterations,
-                                                      deflation_tol)
+                           with_cxx_csr_matrix(H) do cxx_H
+                               cxx_evolve_lanczos_inplace(cxx_H,
+                                                          psi.cxx_state,
+                                                          z, precision,
+                                                          shift, normalize,
+                                                          max_iterations,
+                                                          deflation_tol)
+                           end

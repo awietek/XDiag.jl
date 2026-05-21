@@ -18,8 +18,9 @@ function State(block::Block, vec::Vector{Float64})
         error("Vector and Block do not have the same size!")
     end
 
-    memptr = Base.unsafe_convert(Ptr{Float64}, vec)
-    State(construct_State(block.cxx_block, memptr, 1, 1))
+    GC.@preserve vec begin
+        return State(construct_State(block.cxx_block, pointer(vec), 1, 1))
+    end
 end
 
 function State(block::Block, vec::Vector{ComplexF64})
@@ -28,8 +29,9 @@ function State(block::Block, vec::Vector{ComplexF64})
         error("Vector and Block do not have the same size!")
     end
 
-    memptr = Base.unsafe_convert(Ptr{ComplexF64}, vec)
-    State(construct_State(block.cxx_block, memptr, 1))
+    GC.@preserve vec begin
+        return State(construct_State(block.cxx_block, pointer(vec), 1))
+    end
 end
 
 function State(block::Block, mat::Matrix{Float64})
@@ -39,8 +41,9 @@ function State(block::Block, mat::Matrix{Float64})
         error("First dimension of matrix and Block do not have the same size!")
     end
 
-    memptr = Base.unsafe_convert(Ptr{Float64}, mat)
-    State(construct_State(block.cxx_block, memptr, n, 1))
+    GC.@preserve mat begin
+        return State(construct_State(block.cxx_block, pointer(mat), n, 1))
+    end
 end
 
 function State(block::Block, mat::Matrix{ComplexF64})
@@ -52,8 +55,9 @@ function State(block::Block, mat::Matrix{ComplexF64})
 
     end
 
-    memptr = Base.unsafe_convert(Ptr{ComplexF64}, mat)
-    State(construct_State(block.cxx_block, memptr, n))
+    GC.@preserve mat begin
+        return State(construct_State(block.cxx_block, pointer(mat), n))
+    end
 end
 
 # Methods
