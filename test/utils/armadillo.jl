@@ -44,6 +44,36 @@
         @test mout_scoped ≈ dense * min
     end
 
+    @testset "to_armadillo preserves zero-copy return storage" begin
+        n = parse(Int, get(ENV, "XDIAG_ARMADILLO_LIFETIME_TEST_SIZE", "100000"))
+        expected = collect(Float64, 1:n)
+
+        function dangling_armadillo_view(expected)
+            v = copy(expected)
+            return XDiag.to_armadillo(v; copy=false)
+        end
+
+        a = dangling_armadillo_view(expected)
+        GC.gc(true)
+
+        @test XDiag.to_julia(a) == expected
+    end
+
+    @testset "with_armadillo preserves zero-copy returned storage" begin
+        n = parse(Int, get(ENV, "XDIAG_ARMADILLO_LIFETIME_TEST_SIZE", "100000"))
+        expected = collect(Float64, 1:n)
+
+        function dangling_armadillo_view(expected)
+            v = copy(expected)
+            return XDiag.with_armadillo(identity, v; copy=false)
+        end
+
+        a = dangling_armadillo_view(expected)
+        GC.gc(true)
+
+        @test XDiag.to_julia(a) == expected
+    end
+
     @testset "with_cxx_csr_matrix preserves CSR dense conversion" begin
         csr = csr_matrix(ops, block)
         scoped_dense = XDiag.with_cxx_csr_matrix(csr) do cxx_csr
