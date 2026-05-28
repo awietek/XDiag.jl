@@ -11,7 +11,7 @@ RandomState(seed::Int64 = 42, normalized::Bool = true) = RandomState(construct_R
 
 # Methods
 seed(state::RandomState) = seed(state.cxx_random_state)
-normalized(state::RandomState) = seed(state.cxx_random_state)
+normalized(state::RandomState) = normalized(state.cxx_random_state)
     
 # Output
 to_string(state::RandomState)::String = to_string(state.cxx_random_state)
