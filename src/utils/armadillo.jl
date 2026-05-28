@@ -22,16 +22,23 @@ function _armadillo_wrapper(vec::Vector{ComplexF64}, copy::Bool)
     return cxx_arma_cx_vec(pointer(vec), length(vec), copy, true)
 end
 
-function to_armadillo(array::_ArmadilloArray; copy=true)
+function _lifetime_safe_armadillo_wrapper(array::_ArmadilloArray, copy::Bool)
     GC.@preserve array begin
-        return _armadillo_wrapper(array, copy)
+        arma = _armadillo_wrapper(array, copy)
+        if !copy
+            CxxWrap.gcprotect(array)
+            finalizer(_ -> CxxWrap.gcunprotect(array), arma)
+        end
+        return arma
     end
 end
 
+function to_armadillo(array::_ArmadilloArray; copy=true)
+    return _lifetime_safe_armadillo_wrapper(array, copy)
+end
+
 function with_armadillo(f::F, array::_ArmadilloArray; copy=true) where F
-    GC.@preserve array begin
-        return f(_armadillo_wrapper(array, copy))
-    end
+    return f(_lifetime_safe_armadillo_wrapper(array, copy))
 end
 
 function _unsafe_copy_to_julia!(dest::Vector{T}, src, n::Integer) where T
