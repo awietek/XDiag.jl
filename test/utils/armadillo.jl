@@ -44,6 +44,18 @@
         @test mout_scoped ≈ dense * min
     end
 
+    @testset "to_armadillo exposes SafeArmadilloWrapper for zero-copy views" begin
+        v = [1.0, 2.0, 3.0]
+        copied = XDiag.to_armadillo(v)
+        zero_copy = XDiag.to_armadillo(v; copy=false)
+
+        @test !(copied isa XDiag.SafeArmadilloWrapper)
+        @test zero_copy isa XDiag.SafeArmadilloWrapper{Vector{Float64}}
+        @test zero_copy.owner === v
+        @test zero_copy.arma isa XDiag.cxx_arma_vec
+        @test XDiag.to_julia(zero_copy) == v
+    end
+
     @testset "to_armadillo preserves zero-copy return storage" begin
         n = parse(Int, get(ENV, "XDIAG_ARMADILLO_LIFETIME_TEST_SIZE", "100000"))
         expected = collect(Float64, 1:n)
