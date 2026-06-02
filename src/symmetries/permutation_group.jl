@@ -9,7 +9,7 @@ convert(::Type{T}, g::cxx_PermutationGroup) where T <: PermutationGroup =
     PermutationGroup(g)
 
 # Constructors
-PermutationGroup() = Permutation(construct_PermutationGroup())
+PermutationGroup() = PermutationGroup(construct_PermutationGroup())
 function PermutationGroup(matrix::Matrix{Int64})
     matrix0 = matrix .- 1
     m, n = size(matrix0)
