@@ -17,7 +17,7 @@
     @test length(psi1) == 4
     @test dim(psi1) == 4
     
-    psi2 = State(block, real=false, n_cols=3)
+    psi2 = State(block, real=false, ncols=3)
     @test length(psi2) == 12
     @test size(psi2) == 12
     @test all(isapprox.(matrix(psi2), 0.0))
@@ -34,6 +34,6 @@
     @test vector(imag(psi3)) == imag(v)
 
 
-    # s = State(block; real=true, n_cols=0)
+    # s = State(block; real=true, ncols=0)
     
 end

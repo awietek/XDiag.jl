@@ -65,7 +65,7 @@ end
     @test size(block_out) == 6
 
     dense = matrix(ops, block_in, block_out)
-    @test size(dense) == (size(block_in), size(block_out))
+    @test size(dense) == (size(block_out), size(block_in))
 
     vin = collect(1.0:size(block_in))
     expected_w = [2.0, 3.0, 0.0, 4.0, 0.0, 0.0]

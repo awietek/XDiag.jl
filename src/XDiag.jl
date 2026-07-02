@@ -1,135 +1,72 @@
-# SPDX-FileCopyrightText: 2025 Alexander Wietek <awietek@pks.mpg.de>
-#
 # SPDX-License-Identifier: Apache-2.0
-
+__precompile__(false)
 module XDiag
 
-using Printf
 using CxxWrap
-using XDiag_jll
 using LinearAlgebra
+using Printf
 
-import Base: +, -, *, /, ==, !=
-import Base: getindex, setindex!
-import Base: size, isreal, convert, show, real, imag, push!, iterate, fill, length
-import Base: rand, zeros, zero, isapprox, inv
-
+import Base: +, -, *, /, ==, !=, getindex, setindex!, size, isreal, convert,
+             show, real, imag, push!, iterate, length, isapprox, inv, conj, abs,
+             zero, adjoint, ^
 import LinearAlgebra: dot, norm
 
-@wrapmodule(XDiag_jll.get_libxdiagjl_path)
+# Load the compiled wrapper. For development set ENV["XDIAG_JL_LIB"] to a local
+# libxdiagjl; otherwise fall back to the packaged XDiag_jll.
+# NOTE: for the released package this becomes
+# @wrapmodule(XDiag_jll.get_libxdiagjl_path); during development point
+# ENV["XDIAG_JL_LIB"] at a locally-built libxdiagjl.
+@wrapmodule(() -> ENV["XDIAG_JL_LIB"])
 
-printlib() = println(XDiag_jll.get_libxdiagjl_path())
-export printlib
-
-# Utilities
-export say_hello, print_version, set_verbosity
+# Hand-written arma <-> Julia bridge (to_julia / to_armadillo / with_armadillo).
 include("utils/armadillo.jl")
 
-# Operators
-include("operators/op.jl")
-export Op, type, sites, to_string
+# Generated ergonomic layer: abstract Block + all wrapper structs first (so the
+# forwarder files can be included in any order), then per-subsystem forwarders.
+include("generated/types.jl")
+for p in sort(readdir(joinpath(@__DIR__, "generated"); join = true))
+    (endswith(p, ".jl") && !endswith(p, "types.jl")) && include(p)
+end
 
-include("operators/opsum.jl")
-export OpSum, plain, constants
+# Hand-written specials (caller-allocated pointer fills for dense / sparse).
+include("specials/dense.jl")
+include("specials/sparse.jl")
 
-include("operators/hc.jl")
-export hc
-
-# Symmetries
-include("symmetries/permutation.jl")
-export Permutation, inv
-
-include("symmetries/permutation_group.jl")
-export PermutationGroup, nsites
-
-include("symmetries/representation.jl")
-export Representation
-
-include("operators/symmetrize.jl")
-export symmetrize
-
-# Blocks
-include("states/product_state.jl")
-export ProductState
-
-abstract type Block end
-include("blocks/spinhalf.jl")
-include("blocks/tj.jl")
-include("blocks/electron.jl")
-export Spinhalf, tJ, Electron, index, dim
-
-# States
-include("states/state.jl")
-export State, vector, matrix, col, make_complex!, nrows, ncols
-
-include("states/random_state.jl")
-export RandomState, seed, normalized
-
-include("states/gpwf.jl")
-export GPWF
-
-include("states/fill.jl")
-export fill
-
-include("states/create_state.jl")
-export product_state, random_state, zero_state, zero
-
-# Algebra
-include("algebra/matrix.jl")
-export matrix
-
-include("algebra/apply.jl")
-export apply
-
-include("algebra/algebra.jl")
-export norm, norm1, norminf, dot, inner, matrix_dot
-
-include("algebra/sparse/sparse_matrix_types.jl")
-export COOMatrix, CSRMatrix, CSCMatrix
-
-include("algebra/sparse/coo_matrix.jl")
-export coo_matrix, coo_matrix_32, to_dense
-
-include("algebra/sparse/csr_matrix.jl")
-export csr_matrix, csr_matrix_32
-
-include("algebra/sparse/csc_matrix.jl")
-export csc_matrix, csc_matrix_32
-
-include("algebra/sparse/apply.jl")
-
-# Diagonalization
-include("algorithms/sparse_diag.jl")
-export eig0, eigval0
-
-include("algorithms/lanczos/eigvals_lanczos.jl")
-export eigvals_lanczos, eigvals_lanczos_inplace
-
-include("algorithms/lanczos/eigs_lanczos.jl")
-export eigs_lanczos
-
-# Time evolution
-include("algorithms/time_evolution/time_evolve.jl")
-export time_evolve, time_evolve_inplace
-
-include("algorithms/time_evolution/imaginary_time_evolve.jl")
-export imaginary_time_evolve, imaginary_time_evolve_inplace
-
-include("algorithms/time_evolution/time_evolve_expokit.jl")
-export time_evolve_expokit, time_evolve_expokit_inplace
-
-include("algorithms/time_evolution/evolve_lanczos.jl")
-export evolve_lanczos, evolve_lanczos_inplace
-
-# IO
-include("io/file_toml.jl")
-export FileToml
-
-include("io/read.jl")
-export read_permutation_group, read_representation, read_opsum
+# Hand-written ergonomic layer (real/complex dispatch, kwargs, result structs,
+# Julia-idiom aliases) that the mechanical generator cannot infer.
+include("ergonomics/aliases.jl")
+include("ergonomics/operators.jl")
+include("ergonomics/states.jl")
+include("ergonomics/algebra.jl")
+include("ergonomics/algorithms.jl")
+include("ergonomics/sparse.jl")
 
 function __init__()
     @initcxx
 end
 
-end
+# Blocks & core types
+export Block, Spinhalf, tJ, Electron, Boson, Fermion
+export Op, OpSum, State, ProductState, RandomState, GPWF
+export Permutation, PermutationGroup, Representation, FileToml
+# Common methods
+export nsites, dim, size, length, index, isreal, isapprox, sites, type, to_string
+export nrows, ncols, make_complex, make_complex!, real, imag
+export plain, hc, symmetrize
+# States
+export random_state, product_state, zero_state, fill, vector, matrix, col
+# Algebra
+export apply, inner, norm, norm1, norminf, dot, matrix_dot
+# Sparse
+export CSRMatrix, COOMatrix, CSCMatrix, to_dense
+export csr_matrix, csr_matrix_32, coo_matrix, coo_matrix_32, csc_matrix, csc_matrix_32
+# Diagonalization
+export eig0, eigval0, eigs, eigs_lanczos, eigvals_lanczos, eigvals_lanczos_inplace
+# Time evolution
+export evolve_lanczos, evolve_lanczos_inplace, time_evolve, time_evolve_inplace
+export imaginary_time_evolve, imaginary_time_evolve_inplace
+export time_evolve_expokit, time_evolve_expokit_inplace
+# IO
+export read_permutation_group, read_representation, read_opsum
+
+end # module

@@ -15,6 +15,7 @@
     opsc = OpSum()
     for i in 1:N
         opsc += (1.0 + 1.0im) * Op("Hop", [i, mod1(i+1, N)])
+        opsc += (1.0 - 1.0im) * Op("Hop", [mod1(i+1, N), i])
     end
     
     r = random_state(block)

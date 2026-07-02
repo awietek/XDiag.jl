@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-const _ArmadilloArray = Union{Matrix{Float64},Matrix{ComplexF64},Vector{Float64},Vector{ComplexF64}}
+const _ArmadilloArray = Union{Matrix{Float64},Matrix{ComplexF64},Vector{Float64},Vector{ComplexF64},Vector{Int64}}
 
 function _armadillo_wrapper(mat::Matrix{Float64}, copy::Bool)
     m, n = size(mat)
@@ -20,6 +20,10 @@ end
 
 function _armadillo_wrapper(vec::Vector{ComplexF64}, copy::Bool)
     return cxx_arma_cx_vec(pointer(vec), length(vec), copy, true)
+end
+
+function _armadillo_wrapper(vec::Vector{Int64}, copy::Bool)
+    return cxx_arma_ivec(pointer(vec), length(vec), copy, true)
 end
 
 function to_armadillo(array::_ArmadilloArray; copy=true)
@@ -56,6 +60,11 @@ end
 function to_julia(vec::cxx_arma_cx_vec)
     m = n_rows(vec)
     return _unsafe_copy_to_julia!(Vector{ComplexF64}(undef, m), vec, m)
+end
+
+function to_julia(vec::cxx_arma_ivec)
+    m = n_rows(vec)
+    return _unsafe_copy_to_julia!(Vector{Int64}(undef, m), vec, m)
 end
 
 function to_julia(mat::cxx_arma_mat)
