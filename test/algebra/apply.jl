@@ -10,16 +10,16 @@
         ops += Op("SdotS", [i, mod1(i+1, N)])
     end
 
-    # vectors
+    # out-of-place vs in-place (State-based apply)
     psi = random_state(block)
     v = apply(ops, psi)
-    w = zeros(Float64, size(block))
-    apply(ops, block, vector(psi), block, w)
-    @test isapprox(vector(v), w)
+    w = zero_state(block)
+    apply(ops, psi, w)
+    @test isapprox(vector(v), vector(w))
 
     psiC = random_state(block; real=false)
     vC = apply(ops, psiC)
-    wC = zeros(ComplexF64, size(block))
-    apply(ops, block, vector(psiC), block, wC)
-    @test isapprox(vector(vC), wC)
+    wC = zero_state(block; real=false)
+    apply(ops, psiC, wC)
+    @test isapprox(vector(vC), vector(wC))
 end

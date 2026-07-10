@@ -7,6 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 [![Linux CI](https://github.com/awietek/xdiag/actions/workflows/linux.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/linux.yml)
 [![Mac OSX CI](https://github.com/awietek/xdiag/actions/workflows/osx.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/osx.yml)
 [![Julia CI](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml)
+[![codecov](https://codecov.io/gh/awietek/XDiag.jl/branch/main/graph/badge.svg?style=for-the-badge)](https://codecov.io/gh/awietek/XDiag.jl)
 
 # XDiag
 

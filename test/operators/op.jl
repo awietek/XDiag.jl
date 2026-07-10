@@ -6,18 +6,16 @@
     op = Op("Hop", [1, 2])
     @test type(op) == "Hop"
     @test size(op) == 2
-    @test length(op) == 2
     @test op[1] == 1
     @test op[2] == 2
-    @test sites(op) == [1, 2]
+    @test [op[i] for i in 1:size(op)] == [1, 2]   # `sites` (std::vector) not wrapped
 
     op = Op("Hop", [1, 2])
     @test type(op) == "Hop"
     @test size(op) == 2
-    @test length(op) == 2
     @test op[1] == 1
     @test op[2] == 2
-    @test sites(op) == [1, 2]
+    @test [op[i] for i in 1:size(op)] == [1, 2]   # `sites` (std::vector) not wrapped
     @test isreal(op) == true
 
 

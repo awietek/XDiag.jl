@@ -15,7 +15,7 @@ end
         @test randomPerm*id == randomPerm
         @test randomPerm*randomInv == id
         @test randomInv*randomPerm == id
-        @test randomPerm ^ 2 == randomPerm*randomPerm
+        @test pow(randomPerm, 2) == randomPerm*randomPerm
     end
 
     # permutation group
@@ -45,7 +45,7 @@ end
         T = Permutation(circshift(1:N, -1))
 
         # define cyclic group
-        C_N = PermutationGroup([T^k for k in 0:(N-1)])
+        C_N = PermutationGroup([pow(T, k) for k in 0:(N-1)])
 
         # define irreps from character tables, labelled by momentum (2pi/N ×) k
         character_table = [ [C_N_character(N, k, p) for p in 0:(N-1)] for k in 0:(N-1)]

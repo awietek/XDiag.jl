@@ -53,8 +53,6 @@
     r = Representation(g)
     
     b = Spinhalf()
-    b = Spinhalf(2, r, "auto")
-    b = Spinhalf(2, 1, r, "auto")
     b = Spinhalf(2)
     b = Spinhalf(2, 1)
     b = Spinhalf(2, r)
