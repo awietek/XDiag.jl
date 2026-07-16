@@ -12,8 +12,8 @@
 
     mr = matrix(ops, block)
     for i0 in [0, 1]
-        sr64 = csc_matrix(ops, block, i0)
-        sr32 = csc_matrix_32(ops, block, i0)
+        sr64 = csc_matrix(ops, block; i0=i0)
+        sr32 = csc_matrix_32(ops, block; i0=i0)
         @test isapprox(mr, to_dense(sr64))
         @test isapprox(mr, to_dense(sr32))
         @test sr64.ishermitian
@@ -26,8 +26,8 @@
     end
     mc = matrix(ops, block)
     for i0 in [0, 1]
-        sc64 = csc_matrix(ops, block, i0)
-        sc32 = csc_matrix_32(ops, block, i0)
+        sc64 = csc_matrix(ops, block; i0=i0)
+        sc32 = csc_matrix_32(ops, block; i0=i0)
         @test isapprox(mc, to_dense(sc64))
         @test isapprox(mc, to_dense(sc32))
     end

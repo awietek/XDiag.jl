@@ -7,14 +7,16 @@ SPDX-License-Identifier: Apache-2.0
 [![Linux CI](https://github.com/awietek/xdiag/actions/workflows/linux.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/linux.yml)
 [![Mac OSX CI](https://github.com/awietek/xdiag/actions/workflows/osx.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/xdiag/actions/workflows/osx.yml)
 [![Julia CI](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml/badge.svg?style=for-the-badge)](https://github.com/awietek/XDiag.jl/actions/workflows/CI.yml)
+[![SciPost](https://img.shields.io/badge/Publication-SciPostPhysCodeb.70-yellow)](https://scipost.org/10.21468/SciPostPhysCodeb.70)
+[![codecov](https://codecov.io/gh/awietek/XDiag.jl/branch/main/graph/badge.svg?style=for-the-badge)](https://codecov.io/gh/awietek/XDiag.jl)
 
 # XDiag
 
 A Julia library to perform efficient Exact Diagonalizations of quantum many body systems. 
 
-| **Documentation**                                                                          | **Citation**                                                                                           | **License**                                                        |
-|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------:|--------------------------------------------------------------------|
-| [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://awietek.github.io/xdiag) | [![arXiv](https://img.shields.io/badge/arXiv-2505.02901-b31b1b.svg)](https://arxiv.org/abs/2505.02901) | ![license](https://img.shields.io/badge/license-Apache%202.0-blue) |
+| **Documentation**                                                                             | **Publication**                                                                                                                     | **License**                                                        | **Version** |
+|:---------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|--------------------------------------------------------------------|-------------|
+| [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://awietek.github.io/xdiag) | [![SciPost](https://img.shields.io/badge/Publication-SciPostPhysCodeb.70-yellow)](https://scipost.org/10.21468/SciPostPhysCodeb.70) | ![license](https://img.shields.io/badge/license-Apache%202.0-blue) | 0.5.0       |
 
 
 ### Features:

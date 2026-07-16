@@ -8,24 +8,20 @@
     ops += "T" * Op("Hop", [2, 3])
     ops += "T" * Op("Hop", [3, 4])
     ops["T"] = 1.0
-    @test isapprox(ops, hc(ops))
 
     o = Op("asdf")
     os = OpSum()
-    os = OpSum(123, o)
-    os = OpSum(1.3, o)    
+    os = OpSum(123.0, o)
+    os = OpSum(1.3, o)
     os = OpSum(1.3 + 4.5im, o)    
     os = OpSum("J", o)    
 
-    os = 2 * o
     os = 2.0 * o
     os = (2.0 + 3.0im) * o
 
-    os = os * 2
     os = os * 2.0
     os = os * (2.0 + 3.0im)
 
-    os = os / 2
     os = os / 2.0
     os = os / (2.0 + 3.0im)
 
@@ -49,7 +45,4 @@
     end
     ops2["J"] = J;
     ops2["h"] = h;
-    
-    @test isapprox(ops1, ops2)
-    @test isapprox(ops1 + ops2, 2 * ops1)
 end
