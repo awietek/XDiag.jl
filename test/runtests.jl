@@ -28,6 +28,8 @@ include("algebra/sparse/apply.jl")
 
 include("io/io.jl")
 
+include("kernels/apply.jl")
+
 include("algorithms/eigs_lanczos.jl")
 include("algorithms/eigvals_lanczos.jl")
 include("algorithms/sparse_diag.jl")
