@@ -16,7 +16,7 @@ A Julia library to perform efficient Exact Diagonalizations of quantum many body
 
 | **Documentation**                                                                             | **Publication**                                                                                                                     | **License**                                                        | **Version** |
 |:---------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|--------------------------------------------------------------------|-------------|
-| [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://awietek.github.io/xdiag) | [![SciPost](https://img.shields.io/badge/Publication-SciPostPhysCodeb.70-yellow)](https://scipost.org/10.21468/SciPostPhysCodeb.70) | ![license](https://img.shields.io/badge/license-Apache%202.0-blue) | 0.5.0       |
+| [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://awietek.github.io/xdiag) | [![SciPost](https://img.shields.io/badge/Publication-SciPostPhysCodeb.70-yellow)](https://scipost.org/10.21468/SciPostPhysCodeb.70) | ![license](https://img.shields.io/badge/license-Apache%202.0-blue) | 0.5.1       |
 
 
 ### Features:
