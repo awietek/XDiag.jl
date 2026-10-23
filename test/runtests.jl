@@ -9,7 +9,6 @@ include("utils/armadillo.jl")
 include("utils/version.jl")
 
 include("operators/op.jl")
-include("operators/op_extra.jl")
 include("operators/opsum.jl")
 
 include("symmetries/symmetries.jl")
